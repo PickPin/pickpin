@@ -1,0 +1,8 @@
+<% content_for :js do %>
+  <%= javascript_import_module_tag "map" %>
+<% end %>
+
+<h3>Maps with image Demo</h3>
+<div id="map" style="height: 100vh; width: 100%;"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"
+      defer></script>
