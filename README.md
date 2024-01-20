@@ -1,24 +1,36 @@
-# README
+#エンドポイント参照用
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+# ユーザー登録：
+新規登録：GET /users/sign_up （新規登録フォーム）
+アカウント作成：POST /users （登録処理）
+セッション（ログイン・ログアウト）：
 
-* Ruby version
+# ログインフォーム：GET /users/sign_in
+ログイン処理：POST /users/sign_in
+ログアウト：DELETE /users/sign_out
+パスワード：
 
-* System dependencies
+# パスワード変更要求フォーム：GET /users/password/new
+パスワード変更要求：POST /users/password
+パスワード変更フォーム：GET /users/password/edit
+パスワード変更：PUT /users/password
+アカウント編集・削除：
 
-* Configuration
+# アカウント編集フォーム：GET /users/edit
+アカウント情報更新：PUT /users
+アカウント削除：DELETE /users
+認証キーによる認証：
 
-* Database creation
+認証メール再送：GET /users/confirmation/new
+認証メール送信：POST /users/confirmation
+メールアドレス認証：GET /users/confirmation
+ロック解除：
 
-* Database initialization
+ロック解除要求フォーム：GET /users/unlock/new
+ロック解除要求：POST /users/unlock
+アカウントのロック解除：GET /users/unlock
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## ログイン認証機能用パッケージdeviceの仕様メモ
+ログイン状態でログイン、サインインページに飛ぼうとすると/index.rbに戻される。
+登録されてないユーザー情報を入力してログインformを提出すると、新規登録画面に飛ばされる。

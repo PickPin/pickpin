@@ -18,6 +18,7 @@ gem "puma", ">= 5.0"
 gem "importmap-rails"
 
 # 追加項目
+#(ログイン機能用gem)
 gem 'devise'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
