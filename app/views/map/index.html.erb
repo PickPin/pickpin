@@ -6,3 +6,18 @@
 <div id="map" style="height: 100vh; width: 100%;"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"
       defer></script>
+
+<div id="popupForm" class="popup-overlay">
+  <div class="popup-content">
+    <button type="button" id="closePopup" class="close-btn">&#10005;</button> <!-- Cross Mark -->
+      <h2>ユーザー追加</h2>
+        <form action="/submit_form_path" method="post">
+            <label for="username">ユーザー名:</label>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" name="password"><br>
+            <button type="button" id="add-player-submit">追加</button>
+        </form>
+    </div>
+  </div>
+</div>
