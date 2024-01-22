@@ -65,3 +65,5 @@ sign_out(resource_or_scope):
 ## ユーザーセッション
 user_session:
 現在のユーザーセッションにアクセスするためのメソッド。セッション固有のデータを扱う場合に使う。
+
+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
