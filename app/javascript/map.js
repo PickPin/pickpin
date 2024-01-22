@@ -34,3 +34,12 @@ function initMap() {
 }
 
 window.initMap = initMap;
+
+
+document.getElementById('add-image-button').addEventListener('click', function() {
+  document.getElementById('popupForm').style.display = 'block';
+});
+
+document.getElementById('closePopup').addEventListener('click', function() {
+  document.getElementById('popupForm').style.display = 'none';
+});

@@ -6,5 +6,7 @@ Rails.application.routes.draw do
 
   root "map#index"
 
+  resources :images
+
   get 'debug', to: 'debug#show'
 end
