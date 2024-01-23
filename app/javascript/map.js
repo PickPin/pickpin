@@ -1,5 +1,4 @@
 let lastMarker = null;
-let buttonOverlay = null; // 画像投稿ボタンのOverlayViewを保持するための変数
 var map;
 
 function createMarkerImage(sImageSrc,nWidth,nHeigth,nX,nY) {
@@ -7,15 +6,15 @@ function createMarkerImage(sImageSrc,nWidth,nHeigth,nX,nY) {
    if ( nX != undefined ) {
       oMarkerImg = new google.maps.MarkerImage
             (
-              sImageSrc,             /* url */
-              new google.maps.Size(nWidth,nHeigth),    /* size */
-              new google.maps.Point(0,0),       /* origin */
-              new google.maps.Point(nX,nY)       /* anchor */
+              sImageSrc,
+              new google.maps.Size(nWidth,nHeigth),
+              new google.maps.Point(0,0),
+              new google.maps.Point(nX,nY)
             );
    } else {
       oMarkerImg = new google.maps.MarkerImage
             (
-              sImageSrc,             /* url */
+              sImageSrc,         
               new google.maps.Size(nWidth,nHeigth)
             );
    }
@@ -59,10 +58,18 @@ function createImageMarker(latlng,sImgSrc,sTitle,nWidth,nHeight) {
 }
 
 function createLabelMarker(latlng,sTitle,sCssClass,bVisible,imgsrc,nZIndex,nImgWidth,nImgHeight) {
-  var marker = createImageMarker(latlng,imgsrc,sTitle,nImgWidth,nImgHeight);
-  console.log(marker)
-  var tooltipOptions= { map :map, marker:marker, content:sTitle, cssClass:sCssClass,visible:bVisible,zIndex:nZIndex};
+  lastMarker = createImageMarker(latlng,imgsrc,sTitle,nImgWidth,nImgHeight);
+  var tooltipOptions= { map :map, marker:lastMarker, content:sTitle, cssClass:sCssClass,visible:bVisible,zIndex:nZIndex};
   var labe = new MyLabel(tooltipOptions);
+
+  lastMarker.addListener('click', function() {
+    var popupForm = document.getElementById('popupForm');
+    if (popupForm) {
+      popupForm.style.display = 'block';
+    } else {
+      console.error('popupForm not found');
+    }
+  });
 
   return labe;
 }
@@ -94,15 +101,6 @@ class MyLabel extends google.maps.OverlayView {
       /* 出力したい要素生成 */
       // 新しいdiv要素を作成
       this.div_ = document.createElement("div");
-      
-      // ボタン要素を作成
-      const button = document.createElement("button");
-      button.id = "add-image-button";
-      button.className = "user-form";
-      button.textContent = "画像追加";
-      
-      // ボタンをdivに追加
-      this.div_.appendChild(button);
 
        if ( bVisible != undefined ) {
           if ( bVisible ) {
@@ -135,15 +133,29 @@ function initMap() {
     center: tsukuba,
   });
 
-  var myLatlng1 = new google.maps.LatLng(36.109682, 140.101583);
+  // var myLatlng1 = new google.maps.LatLng(36.109682, 140.101583);
 
-  var marker1 = createLabelMarker(myLatlng1,"ポスト","MapTooltip BorderColorRed",true,add_post_icon,1,100,100);
+  // var marker1 = createLabelMarker(myLatlng1,"ポスト","MapTooltip BorderColorRed",true,add_post_icon,1,100,100);
+
+  map.addListener('click', function(e) {
+    if (lastMarker != null){
+      lastMarker.setMap(null);
+    }
+    createLabelMarker(e.latLng,"ポスト","MapTooltip BorderColorRed",true,add_post_icon,1,100,100);
+  });
 
 }
 
-document.getElementById('add-image-button').addEventListener('click', function() {
-  document.getElementById('popupForm').style.display = 'block';
-});
+function markerEvent() {
+  lastMarker.addListener('click', function() {
+    var popupForm = document.getElementById('popupForm');
+    if (popupForm) {
+      popupForm.style.display = 'block';
+    } else {
+      console.error('popupForm not found');
+    }
+  })
+}
 
 document.getElementById('closePopup').addEventListener('click', function() {
   document.getElementById('popupForm').style.display = 'none';
