@@ -65,7 +65,9 @@ function createLabelMarker(latlng,sTitle,sCssClass,bVisible,imgsrc,nZIndex,nImgW
   lastMarker.addListener('click', function() {
     var popupForm = document.getElementById('popupForm');
     if (popupForm) {
-      popupForm.style.display = 'block';
+      popupForm.style.display = 'flex';
+      document.getElementById('latitude-field').value = latlng.lat()
+      document.getElementById('longitude-field').value = latlng.lng()
     } else {
       console.error('popupForm not found');
     }
@@ -133,10 +135,6 @@ function initMap() {
     center: tsukuba,
   });
 
-  // var myLatlng1 = new google.maps.LatLng(36.109682, 140.101583);
-
-  // var marker1 = createLabelMarker(myLatlng1,"ポスト","MapTooltip BorderColorRed",true,add_post_icon,1,100,100);
-
   map.addListener('click', function(e) {
     if (lastMarker != null){
       lastMarker.setMap(null);
@@ -144,17 +142,6 @@ function initMap() {
     createLabelMarker(e.latLng,"ポスト","MapTooltip BorderColorRed",true,add_post_icon,1,100,100);
   });
 
-}
-
-function markerEvent() {
-  lastMarker.addListener('click', function() {
-    var popupForm = document.getElementById('popupForm');
-    if (popupForm) {
-      popupForm.style.display = 'block';
-    } else {
-      console.error('popupForm not found');
-    }
-  })
 }
 
 document.getElementById('closePopup').addEventListener('click', function() {

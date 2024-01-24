@@ -18,4 +18,5 @@ Rails.application.config.assets.precompile += %w(
     # いかに個別のページで適応させたいcssを書く。
     signup.css
     map.css
+    postForm.css
 )
