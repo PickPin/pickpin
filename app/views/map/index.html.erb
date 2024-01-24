@@ -5,7 +5,6 @@
   <%= javascript_import_module_tag "map" %>
 <% end %>
 
-<h3><%= current_user.name %></h3>
 <div id="map" style="height: 100vh; width: 100%;"></div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"></script>
@@ -17,13 +16,12 @@ var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
   <div class="popup-content">
     <button type="button" id="closePopup" class="close-btn">&#10005;</button> <!-- Cross Mark -->
     <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post", multipart: true }) do |form| %>
+      <div id="previews"></div>
       <div class="field image-upload">
-        <%= form.label :post_image, '投稿画像' %> <br />
-        <%= form.file_field :post_image, accept: 'image/*', data: { "image-preview-target": "input", action: "image-preview#readImage" }, id: 'post_image' %>
-        <ul data-image-preview-target="output">
-        </ul>
-        <label for="post_image" class="image-upload-prompt">
-          <div class="upload-icon">&#128247;</div> <!-- Camera Icon -->
+      <%= form.label :post_image, '投稿画像' %> <br />
+      <%= form.file_field :post_image, accept: 'image/*',id: 'post_image' %>
+      <label for="post_image" class="image-upload-prompt">
+      <div class="upload-icon">&#128247;</div> <!-- Camera Icon -->
           <div>画像をアップロード</div>
         </label>
       </div>

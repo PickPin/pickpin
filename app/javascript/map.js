@@ -151,43 +151,23 @@ document.getElementById('closePopup').addEventListener('click', function() {
 
 window.addEventListener('load', initMap);
 
+document.addEventListener('DOMContentLoaded', function() {
+  const postForm = document.getElementById('imageForm');
+  if (!postForm) return null;
 
-import { Controller } from "@hotwired/stimulus"
+  const fileField = document.querySelector('input[type="file"]');
+  fileField.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const blob = window.URL.createObjectURL(file);
 
-let data = null;
-
-export default class extends Controller {
-  static targets = [ "output", "input"];
-  
-  connect() {
-    data = new DataTransfer();
-  }
-
-  readImage(e) {
-    let input = this.inputTarget;
-    let output = this.outputTarget;
-
-    if (input.files) {
-      let files = Array.from(input.files);
-      
-      files.forEach((f) => data.items.add(f));
-      for (let i = 0; i < files.length; i++) {
-        this.readOne(files[i], i, output);
-      }
-      input.files = data.files;
+    // 'image-upload'クラスを持つ要素の背景画像を設定
+    const imageUploadElement = document.querySelector('.image-upload');
+    if (imageUploadElement) {
+      imageUploadElement.style.backgroundImage = `url(${blob})`;
+      imageUploadElement.style.backgroundSize = 'cover'; // 背景画像のサイズ調整
+      imageUploadElement.style.backgroundPosition = 'center'; // 背景画像を中央に配置
     }
-  }
+  });
+});
 
-  readOne(f, index, output) {
-    let reader = new FileReader();
-    reader.readAsDataURL(f);
-    reader.onload = () => {
-      const html= `<li>
-                  <div>
-                    <image src="${reader.result}"/>
-                  </div>
-                </li>`;
-      output.insertAdjacentHTML('beforeend', html);
-    };
-  }
-}
+
