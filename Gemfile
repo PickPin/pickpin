@@ -21,6 +21,10 @@ gem "importmap-rails"
 #(ログイン機能用gem)
 gem 'devise'
 
+# 画像のプレビュー機能用
+gem "image_processing", "~> 1.2"
+gem 'mini_magick'
+
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 

@@ -19,7 +19,9 @@ var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
     <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post", multipart: true }) do |form| %>
       <div class="field image-upload">
         <%= form.label :post_image, '投稿画像' %> <br />
-        <%= form.file_field :post_image, accept: 'image/*', id: 'post_image' %>
+        <%= form.file_field :post_image, accept: 'image/*', data: { "image-preview-target": "input", action: "image-preview#readImage" }, id: 'post_image' %>
+        <ul data-image-preview-target="output">
+        </ul>
         <label for="post_image" class="image-upload-prompt">
           <div class="upload-icon">&#128247;</div> <!-- Camera Icon -->
           <div>画像をアップロード</div>
