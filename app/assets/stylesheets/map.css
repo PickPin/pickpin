@@ -1,111 +1,80 @@
-#map {
-    background-color: grey;
-    text-align: center;
-    font-size: 100px;
-    border-style: inset;
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
-h3 {
-    font-family: "Roboto", "Noto Sans JP", "Arial", sans-serif;
-    color: #E5BE07
+#map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#sidebar {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 50%; /* サイドバーの幅 */
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.7); /* 半透明の背景 */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
+    padding: 20px;
+    border-radius: 30px;
+}
+
+#sidebar div {
+    list-style: none;
+}
+
+#sidebar div img {
+    margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .current-post-wrapper {
     padding: 10px;
     display: flex;
-    border-style: inset;
-    border-color: #FFA8A8;
-}
-
-.full-show {
-    display: flex;
-    width: 100%;
-    margin: 0;
-    border-style: none;
-    position: relative;
-}
-
-.gloss {
-    background-image: linear-gradient( 135deg, #FFA8A8 10%, #FCFF00 100%);
-}
-
-.main-show {
-    display: flex;
-    flex-direction: column;
-    width: 85%;
-}
-
-aside {
-    width: 15%;
-    border-top-style: unset;
-    border-color: #FFA8A8;
-    border-style: inset;
 }
 
 .current-post-container {
     display: flex;
 }
 
-.current-posts {
-    font-family: "Roboto", "Noto Sans JP", "Arial", sans-serif;
-}
-
 .post {
-    font-family: "Roboto", "Noto Sans JP", "Arial", sans-serif;
     background: #fff;
     margin: 10px;
     padding: 10px;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-style: inset;
 }
 
-.sub-title {
-    font-family: "Roboto", "Noto Sans JP", "Arial", sans-serif;
-    font-size: 1.375rem;
-    height: 50px;
-    padding: 0 8px 8px;
-    border-bottom: 2px #f37053 solid;
-    font-weight: normal;
-}
-
-.sub-menu {
-    font-family: "Roboto", "Noto Sans JP", "Arial", sans-serif;
-    margin-bottom: 60px;
-    list-style: none;
-}
-
-.sub-menu li {
-    height:130px;
-}
-
-.sub-menu a {
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
-    color: #000;
-    font-size: 30px;
-    height: 50px;
-    padding: 10px;
-    display: block;
-    text-decoration: none;
-}
-
-.sub-menu a:after {
+#logo {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #f37053;
-    transform: translate(-100%, 0);
-    transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 0.4s;
-    content: "";
+    width: 250px; 
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.7); /* 半透明の背景 */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
+    padding: 20px;
+    border-radius: 30px;
 }
 
-
-.sub-menu a:hover:after {
-    transform: translate(0, 0);
+.logo h2 {
+    position: relative;
+    text-align: center;
+    top: 0;
+    bottom: 0;
+    padding: auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-

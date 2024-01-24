@@ -2,32 +2,24 @@
   <%= javascript_import_module_tag "map" %>
 <% end %>
 
-<div class="full-show gloss">
-  <aside>
-    <h4 class="sub-title">Maps with image Demo</h4>
-    <ul class="sub-menu">
-      <li><a href="#">a</a></li>
-      <li><a href="#">他のアカウント</a></li>
-      <li><a href="#">アプリについて</a></li>
-      <li><a href="#">設定</a></li>
-      <li><a href="#">ログアウト</a></li>
-    </ul>
-  </aside>
-
-  <div class="main-show">
+<div id="map-container">
+  <div id="map" style="height: 100%; width: 100%;">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly" defer></script>
+  </div>
+  
+  <div id="sidebar">
     <div class="current-post-wrapper">
       <h2 class="current-posts">最近の投稿</h2>
       <div class="current-post-container">
-        <img src="#",alt="ポスト１" class="post">post1</img>
+        <img src="/app/assets/images/file-UzuXqNDosWvXpPmpE5hLAgfm.webp",alt="ポスト１" class="post">post1</img>
         <img src="#",alt="ポスト２" class="post">post2</img>
         <img src="#",alt="ポスト３" class="post">post3</img>
         <img src="#",alt="ポスト４" class="post">post4</img>
       </div>
     </div>
-    
-    <div id="map" style="height: 85vh; width: 100%;">
-      
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly" defer></script>
-    </div>
+  </div>
+
+  <div id="logo">
+    <h2>My landscape</h2>
   </div>
 </div>
