@@ -16,15 +16,14 @@ var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
   <div class="popup-content">
     <button type="button" id="closePopup" class="close-btn">&#10005;</button> <!-- Cross Mark -->
     <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %>
-      <div id="previews"></div>
       <div class="field image-upload">
-      <%= form.label :post_image, '投稿画像' %> <br />
       <%= form.file_field :post_image, accept: 'image/*',id: 'post_image' %>
       <label for="post_image" class="image-upload-prompt">
       <div class="upload-icon">&#128247;</div> <!-- Camera Icon -->
           <div>画像をアップロード</div>
         </label>
       </div>
+      <button type="button" id="cancel-upload">画像取り消し</button>
       <div class="field comment-section">
         <div class="user-icon-and-label">
           <div class="user-icon">&#128100;</div> 

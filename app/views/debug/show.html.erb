@@ -16,7 +16,9 @@
 <ul>
   <% @images.each do |image| %>
     <li>
-      <%= image_tag(@image.post_image) if image.post_image.attached? %>
+      <% if image && image.post_image %>
+        <%= image_tag(rails_blob_path(image.post_image)) %>
+      <% end %>
     </li>
   <% end %>
 </ul>

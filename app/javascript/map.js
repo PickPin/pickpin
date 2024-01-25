@@ -171,3 +171,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+const cancelUploadButton = document.getElementById('cancel-upload');
+const fileField = document.querySelector('input[type="file"]');
+const imageUploadElement = document.querySelector('.image-upload');
+
+
+cancelUploadButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  if (fileField) {
+    fileField.value = ''; 
+    if (imageUploadElement) {
+      imageUploadElement.style.backgroundImage = "none";
+    }
+  }
+});
