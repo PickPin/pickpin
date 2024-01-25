@@ -11,3 +11,14 @@ function initMap() {
     });
   }
   window.initMap = initMap;
+
+function toggleMenu() {
+  var panel = document.getElementById("menuPanel");
+  if (panel.classList.contains("menu-hidden")) {
+      panel.classList.remove("menu-hidden");
+      panel.classList.add("menu-shown");
+  } else {
+    panel.classList.add("menu-hidden");
+    panel.classList.remove("menu-shown");
+  }
+}

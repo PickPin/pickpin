@@ -62,19 +62,51 @@ body, html {
     position: absolute;
     top: 0;
     left: 0;
-    width: 250px; 
+    width: 250px;
     height: 30px;
+    font-size: 40px;
+    line-height: 30px;
     background-color: rgba(255, 255, 255, 0.7); /* 半透明の背景 */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
     padding: 20px;
     border-radius: 30px;
 }
 
-.logo h2 {
-    position: relative;
-    text-align: center;
+.menuButton {
+    position: absolute;
     top: 0;
-    bottom: 0;
-    padding: auto;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
+    color: black;
+    text-align: center;
+    padding: 20px;
+    line-height: 90px;
+    font-size: 4rem;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 3;
+}
+
+#menuPanel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
+    overflow-x: hidden;
+    transition: 0.5s;
+    z-index: 2;
+}
+
+.menu-hidden {
+    width: 0;
+}
+
+.menu-shown {
+    width: 250px;
 }
