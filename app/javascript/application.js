@@ -2,5 +2,3 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-//追加
-import "/map";
