@@ -10,6 +10,14 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"></script>
 <script>
 var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
+var imagesData = <%= (@images || []).map { |image| 
+{ 
+  url: rails_blob_path(image.post_image, only_path: true),
+  latitude: image.latitude,
+  longitude: image.longitude
+}
+}.to_json.html_safe %>;
+
 var imagesData = <%= @images.map { |image| 
 { 
   url: rails_blob_path(image.post_image, only_path: true),

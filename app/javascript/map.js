@@ -67,6 +67,25 @@ function createLabelMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex,
 
   return label;
 }
+// 投稿画像マーカーを作成する関数
+function createPostMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex, nImgWidth, nImgHeight) {
+  var postMarker = createImageMarker(latlng, imgsrc, sTitle, nImgWidth, nImgHeight);
+  var tooltipOptions = { 
+    map: map, 
+    marker: postMarker, 
+    content: sTitle, 
+    cssClass: sCssClass, 
+    visible: bVisible, 
+    zIndex: nZIndex
+  };
+  var label = new MyLabel(tooltipOptions);
+
+  postMarker.addListener('click', function() {
+    console.log("今後実装")
+  });
+
+  return label;
+}
 
 function createPostMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex, nImgWidth, nImgHeight) {
   post_phote = createImageMarker(latlng, imgsrc, sTitle, nImgWidth, nImgHeight);
@@ -142,7 +161,10 @@ function initMap() {
     if (lastMarker !== null){
       lastMarker.setMap(null);
     }
-    createLabelMarker(e.latLng, "ポスト", "MapTooltip BorderColorRed", true, add_post_icon, 1, 100, 100);
+    createLabelMarker(e.latLng, "投稿用ピン", "MapTooltip BorderColorRed", true, add_post_icon, 1, 100, 100);
+    imagesData.forEach(function(image) {
+      createPostMarker({ lat: image.latitude, lng: image.longitude },"ポスト","MapTooltip BorderColorRed",true,image.url,1, 50, 50);
+    });
   });
 
   imagesData.forEach(function(image) {
