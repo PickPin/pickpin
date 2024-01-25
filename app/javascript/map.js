@@ -68,6 +68,21 @@ function createLabelMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex,
   return label;
 }
 
+function createPostMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex, nImgWidth, nImgHeight) {
+  post_phote = createImageMarker(latlng, imgsrc, sTitle, nImgWidth, nImgHeight);
+  var tooltipOptions = { 
+    map: map, 
+    marker: lastMarker, 
+    content: sTitle, 
+    cssClass: sCssClass, 
+    visible: bVisible, 
+    zIndex: nZIndex
+  };
+  var label = new MyLabel(tooltipOptions);
+
+  return label;
+}
+
 // MyLabel クラス定義
 class MyLabel extends google.maps.OverlayView {
   constructor(options) {
@@ -128,6 +143,11 @@ function initMap() {
       lastMarker.setMap(null);
     }
     createLabelMarker(e.latLng, "ポスト", "MapTooltip BorderColorRed", true, add_post_icon, 1, 100, 100);
+  });
+
+  imagesData.forEach(function(image) {
+    createLabelMarker(e.latLng, "ポスト", "MapTooltip BorderColorRed", true, add_post_icon, 1, 100, 100);
+    createMarkerImage(image.url, 50, 50, image.latitude, image.longitude);
   });
 }
 
