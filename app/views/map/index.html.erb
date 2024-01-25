@@ -15,7 +15,7 @@ var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
 <div id="popupForm" class="popup-overlay">
   <div class="popup-content">
     <button type="button" id="closePopup" class="close-btn">&#10005;</button> <!-- Cross Mark -->
-    <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post", multipart: true }) do |form| %>
+    <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %>
       <div id="previews"></div>
       <div class="field image-upload">
       <%= form.label :post_image, '投稿画像' %> <br />

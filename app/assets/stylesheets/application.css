@@ -13,3 +13,5 @@
  * require_tree .
  *= require_self
  */
+
+ /* require_tree .の先頭の=を外せばcssが個別のページのみに適応される */

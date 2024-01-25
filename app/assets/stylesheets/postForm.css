@@ -13,8 +13,8 @@
 
 .popup-content {
     position: relative;
-    width: 40%;
-    height: 40%;
+    width: 700px;
+    height: 400px;
     background: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -100,7 +100,7 @@
 }
 
 .comment-input{
-    height: 80%;
+    height: 280px;
 }
 
 .field input[type="text"],
@@ -117,5 +117,5 @@
 }
 
 .field input[type="text"] {
-    height: 93%;
+    height: 100%;
 }
