@@ -1,100 +1,87 @@
 let lastMarker = null;
 var map;
 
-function createMarkerImage(sImageSrc,nWidth,nHeigth,nX,nY) {
-   var oMarkerImg = null;
-   if ( nX != undefined ) {
-      oMarkerImg = new google.maps.MarkerImage
-            (
-              sImageSrc,
-              new google.maps.Size(nWidth,nHeigth),
-              new google.maps.Point(0,0),
-              new google.maps.Point(nX,nY)
-            );
-   } else {
-      oMarkerImg = new google.maps.MarkerImage
-            (
-              sImageSrc,         
-              new google.maps.Size(nWidth,nHeigth)
-            );
-   }
-   return oMarkerImg;
+// マーカー画像を作成する関数
+function createMarkerImage(sImageSrc, nWidth, nHeight, nX, nY) {
+  if (nX !== undefined) {
+    return new google.maps.MarkerImage(
+      sImageSrc,
+      new google.maps.Size(nWidth, nHeight),
+      new google.maps.Point(0, 0),
+      new google.maps.Point(nX, nY)
+    );
+  } else {
+    return new google.maps.MarkerImage(
+      sImageSrc,         
+      new google.maps.Size(nWidth, nHeight)
+    );
+  }
 }
 
-function createImageMarker(latlng,sImgSrc,sTitle,nWidth,nHeight) {
-  var nDefaultWidth = 20;
-  var nDefaultHeight= 20;
-  if ( nWidth != undefined ) { 
-     nDefaultWidth = nWidth;
+// 画像付きのマーカーを作成する関数
+function createImageMarker(latlng, sImgSrc, sTitle, nWidth, nHeight) {
+  var nDefaultWidth = nWidth || 20;
+  var nDefaultHeight = nHeight || 20;
+
+  var markerOptions = {
+    map: map, 
+    position: latlng
+  };
+
+  if (sImgSrc !== "") {
+    markerOptions.icon = createMarkerImage(sImgSrc, nDefaultWidth, nDefaultHeight);
   }
-  if ( nHeight != undefined ) { 
-     nDefaultHeight = nHeight;
-  }
-  var marker;
-  if ( sImgSrc == "" ) { 
-      marker = new google.maps.Marker(
-        {
-           
-           map: map, 
-           position: latlng
-        }
-     );
-  } else {
-     var oImg = createMarkerImage(sImgSrc,nDefaultWidth,nDefaultHeight);
-      marker = new google.maps.Marker(
-        {
-           
-           map: map, 
-           position: latlng,
-           icon:oImg
-        }
-     );
-  }
-  if ( sTitle != undefined ) {
-     marker.setTitle(sTitle);
+
+  var marker = new google.maps.Marker(markerOptions);
+
+  if (sTitle !== undefined) {
+    marker.setTitle(sTitle);
   }
 
   return marker;
 }
 
-function createLabelMarker(latlng,sTitle,sCssClass,bVisible,imgsrc,nZIndex,nImgWidth,nImgHeight) {
-  lastMarker = createImageMarker(latlng,imgsrc,sTitle,nImgWidth,nImgHeight);
-  var tooltipOptions= { map :map, marker:lastMarker, content:sTitle, cssClass:sCssClass,visible:bVisible,zIndex:nZIndex};
-  var labe = new MyLabel(tooltipOptions);
+// ラベル付きのマーカーを作成する関数
+function createLabelMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex, nImgWidth, nImgHeight) {
+  lastMarker = createImageMarker(latlng, imgsrc, sTitle, nImgWidth, nImgHeight);
+  var tooltipOptions = { 
+    map: map, 
+    marker: lastMarker, 
+    content: sTitle, 
+    cssClass: sCssClass, 
+    visible: bVisible, 
+    zIndex: nZIndex
+  };
+  var label = new MyLabel(tooltipOptions);
 
   lastMarker.addListener('click', function() {
     var popupForm = document.getElementById('popupForm');
     if (popupForm) {
       popupForm.style.display = 'flex';
-      document.getElementById('latitude-field').value = latlng.lat()
-      document.getElementById('longitude-field').value = latlng.lng()
+      document.getElementById('latitude-field').value = latlng.lat();
+      document.getElementById('longitude-field').value = latlng.lng();
     } else {
       console.error('popupForm not found');
     }
   });
 
-  return labe;
+  return label;
 }
 
+// MyLabel クラス定義
 class MyLabel extends google.maps.OverlayView {
   constructor(options) {
-     super();
-     this.latlng = options.marker.getPosition();
-     this.setMap(options.map);
-     this.div_ = null;
-     this.content = options.content;
-     this.className = options.cssClass;
-     this.marker_ = options.marker;
-     this.MarkerImage = options.marker.getIcon();
-     if ( this.MarkerImage == undefined ) {
-        /* 通常マーカーの場合*/
-        this.TopPosition = options.top|| 35;
-     } else {
-        /* アイコン指定時 */
-        this.TopPosition = options.top|| -5;
-     }
-     this.ZIndex = options.zIndex || null;
-     this.Visible = options.visible || null;
+    super();
+    this.latlng = options.marker.getPosition();
+    this.setMap(options.map);
+    this.div_ = null;
+    this.content = options.content;
+    this.className = options.cssClass;
+    this.marker_ = options.marker;
+    this.MarkerImage = options.marker.getIcon();
+    this.TopPosition = this.MarkerImage ? (options.top || -5) : (options.top || 35);
+    this.ZIndex = options.zIndex || null;
+    this.Visible = options.visible || null;
   }
 
   onAdd() {
@@ -128,6 +115,7 @@ class MyLabel extends google.maps.OverlayView {
   }
 }
 
+// 地図初期化関数
 function initMap() {
   const tsukuba = { lat: 36.109682, lng: 140.101583 };
   map = new google.maps.Map(document.getElementById("map"), {
@@ -136,51 +124,54 @@ function initMap() {
   });
 
   map.addListener('click', function(e) {
-    if (lastMarker != null){
+    if (lastMarker !== null){
       lastMarker.setMap(null);
     }
-    createLabelMarker(e.latLng,"ポスト","MapTooltip BorderColorRed",true,add_post_icon,1,100,100);
+    createLabelMarker(e.latLng, "ポスト", "MapTooltip BorderColorRed", true, add_post_icon, 1, 100, 100);
   });
-
 }
 
+// ポップアップフォームの閉じるボタンイベントリスナー
 document.getElementById('closePopup').addEventListener('click', function() {
   document.getElementById('popupForm').style.display = 'none';
 });
 
-
+// 地図初期化
 window.addEventListener('load', initMap);
 
+// 画像アップロードイベントハンドラ
 document.addEventListener('DOMContentLoaded', function() {
   const postForm = document.getElementById('imageForm');
-  if (!postForm) return null;
+  if (!postForm) return;
 
   const fileField = document.querySelector('input[type="file"]');
   fileField.addEventListener('change', function(e) {
     const file = e.target.files[0];
     const blob = window.URL.createObjectURL(file);
+    const cancel_upload_button = document.getElementById("cancel-upload");
 
     // 'image-upload'クラスを持つ要素の背景画像を設定
     const imageUploadElement = document.querySelector('.image-upload');
-    if (imageUploadElement) {
+    if (imageUploadElement && cancel_upload_button) {
       imageUploadElement.style.backgroundImage = `url(${blob})`;
       imageUploadElement.style.backgroundSize = 'cover'; // 背景画像のサイズ調整
       imageUploadElement.style.backgroundPosition = 'center'; // 背景画像を中央に配置
+      cancel_upload_button.style.display = "block";
     }
   });
 });
 
-
+// 画像アップロードキャンセルボタンイベントリスナー
 const cancelUploadButton = document.getElementById('cancel-upload');
-const fileField = document.querySelector('input[type="file"]');
-const imageUploadElement = document.querySelector('.image-upload');
-
-
 cancelUploadButton.addEventListener('click', (e) => {
-  e.preventDefault()
+  const fileField = document.querySelector('input[type="file"]');
+  const imageUploadElement = document.querySelector('.image-upload');
+  const cancel_upload_button = document.getElementById("cancel-upload");
+  e.preventDefault();
   if (fileField) {
     fileField.value = ''; 
     if (imageUploadElement) {
+      cancel_upload_button.style.display = "none";
       imageUploadElement.style.backgroundImage = "none";
     }
   }
