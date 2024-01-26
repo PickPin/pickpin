@@ -18,6 +18,7 @@ icon_url = user_icon_url(user)
     latitude: image.latitude,
     longitude: image.longitude,
     user_id: image.user_id,
+    user_name: user.name,
     image_id: image.id,
     created_at: image.created_at.strftime('%H:%M')
   }
@@ -65,22 +66,9 @@ icon_url = user_icon_url(user)
 
   <div id="sidebar">
     <div class="current-post-wrapper">
-      <h2 class="current-posts">最近の投稿</h2>
-      <div class="current-post-container">
-      <% if @images %>
-        <% displayed_user_ids = Set.new %>
-        <% @images.each do |image| %>
-          <% user = User.find(image.user_id) %>
-          <% unless displayed_user_ids.include?(user.id) %>
-            <% displayed_user_ids.add(user.id) %>
-            <% icon_url = user_icon_url(user) %>
-            <img src="<%= icon_url %>", class="post">
-          <% end %>
-        <% end %>
-      <% else %>
-        <p>画像が見つかりません。</p>
-      <% end %>
-    </div>
+      <div id="current-post-container">
+
+      </div>
     </div>
   </div>
 

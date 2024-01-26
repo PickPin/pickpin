@@ -1,22 +1,20 @@
-body, html {
+html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
     overflow: hidden;
-}
-
-h3 {
-    position: absolute;
-    font-family: 'Times New Roman', Times, serif;
-    color: #00a0dc;
-    z-index: 10;
 }
 
 #map {
     height: 100vh;
     width: 100%;
-    position: absolute; /* 他の要素を重ねるために必要 */
+    position: relative; /* 他の要素を重ねるために必要 */
     z-index: 1001; /* マップを背面に */
+}
+h3 {
+    position: absolute;
+    font-family: 'Times New Roman', Times, serif;
+    color: #00a0dc;
+    z-index: 10;
 }
 
 #map-container {
@@ -34,17 +32,20 @@ h3 {
 
 #sidebar {
     position: absolute;
-    bottom: 30px;
+    bottom: 80px;
     left: 0;
     right: 0;
     margin: auto;
-    width: 60%; /* サイドバーの幅 */
-    height: 150px;
-    background-color: rgba(229, 109, 7, 0.92); /* 半透明の背景 */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
+    width: 50%; 
+    height: 80px;
+    background-color: #FFFFFFCC; /* 半透明の背景 */
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15); /* 影を追加 */
     padding: 20px;
     border-radius: 30px;
     z-index: 1010;
+    text-align: center;
+    display: flex;
 }
 
 #sidebar div {
@@ -52,27 +53,51 @@ h3 {
 }
 
 #sidebar div img {
-    margin-bottom: 10px;
     font-size: 18px;
 }
 
 .current-post-wrapper {
-    padding: 10px;
     display: flex;
 }
 
-.current-post-container {
+#current-post-container {
     display: flex;
 }
 
 .post {
-    background: #fff;
-    margin: 10px;
-    padding: 10px;
+    /* background: #fff; */
     border-radius: 50%;
     width: 70px;
     height: 70px;
-    border-style: inset;
+    /* border-style: inset; */
+}
+
+.post_username{
+    margin-top: -5px;
+    color: #000000;
+}
+
+.post_count {
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    margin-left: -5px;
+    margin-top: -5px;
+    display: flex;
+    border-radius: 10px;
+    background-color: #ff0000;
+    border: solid 2px #000000;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15); /* 影を追加 */
+    text-align: center;
+    justify-content: center;
+}
+
+.post_count p{
+    font-size: 20px;
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
+    color: #fff;
 }
 
 #logo {

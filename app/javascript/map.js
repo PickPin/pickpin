@@ -20,7 +20,7 @@ function createMarkerImage(sImageSrc, nWidth, nHeight, nX, nY) {
 }
 
 // 画像付きのマーカーを作成する関数
-function createImageMarker(latlng, sImgSrc, sTitle, nWidth, nHeight, csName) {
+function createImageMarker(latlng, sImgSrc, sTitle, nWidth, nHeight, csName,isAnim) {
   var nDefaultWidth = nWidth || 20;
   var nDefaultHeight = nHeight || 20;
 
@@ -30,6 +30,11 @@ function createImageMarker(latlng, sImgSrc, sTitle, nWidth, nHeight, csName) {
     className: csName,
     optimized: false
   };
+
+  if (isAnim) {
+    markerOptions.animation = google.maps.Animation.BOUNCE;
+  }
+  
 
   if (sImgSrc !== "") {
     markerOptions.icon = createMarkerImage(sImgSrc, nDefaultWidth, nDefaultHeight);
@@ -45,17 +50,8 @@ function createImageMarker(latlng, sImgSrc, sTitle, nWidth, nHeight, csName) {
 }
 
 // ラベル付きのマーカーを作成する関数
-function createLabelMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex, nImgWidth, nImgHeight) {
-  lastMarker = createImageMarker(latlng, imgsrc, sTitle, nImgWidth, nImgHeight, "post_marker");
-  var tooltipOptions = {
-    map: map,
-    marker: lastMarker,
-    content: sTitle,
-    cssClass: sCssClass,
-    visible: bVisible,
-    zIndex: nZIndex
-  };
-  var label = new MyLabel(tooltipOptions);
+function createLabelMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex, nImgWidth, nImgHeight,isAnim) {
+  lastMarker = createImageMarker(latlng, imgsrc, sTitle, nImgWidth, nImgHeight, "post_marker",isAnim);
 
   lastMarker.addListener('click', function () {
     var popupForm = document.getElementById('popupForm');
@@ -67,140 +63,132 @@ function createLabelMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex,
       console.error('popupForm not found');
     }
   });
-
-  return label;
 }
 
-// 投稿画像マーカーを作成する関数
-function createPostMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex, nImgWidth, nImgHeight) {
-  var postMarker = createImageMarker(latlng, imgsrc, sTitle, nImgWidth, nImgHeight, "post_image");
-  var tooltipOptions = {
-    map: map,
-    marker: postMarker,
-    content: sTitle,
-    cssClass: sCssClass,
-    visible: bVisible,
-    zIndex: nZIndex
-  };
-  var label = new MyLabel(tooltipOptions);
-
-  postMarker.addListener('click', function () {
-    console.log("今後実装")
-  });
-
-  return label;
-}
-
-// MyLabel クラス定義
-class MyLabel extends google.maps.OverlayView {
-  constructor(options) {
+class ImageOverlay extends google.maps.OverlayView {
+  constructor(bounds, imageSrc, map, width, height, className, showLabel, labelContent) {
     super();
-    this.latlng = options.marker.getPosition();
-    this.setMap(options.map);
+    this.bounds_ = bounds;
+    this.imageSrc_ = imageSrc;
+    this.map_ = map;
+    this.width_ = width;
+    this.height_ = height;
+    this.className_ = className;
+    this.showLabel_ = showLabel;
+    this.labelContent_ = labelContent;
     this.div_ = null;
-    this.content = options.content;
-    this.className = options.cssClass;
-    this.marker_ = options.marker;
-    this.MarkerImage = options.marker.getIcon();
-    this.TopPosition = this.MarkerImage ? (options.top || -5) : (options.top || 35);
-    this.ZIndex = options.zIndex || null;
-    this.Visible = options.visible || null;
+    this.bVisible = true;
+
+    this.setMap(map);
   }
 
   onAdd() {
-    var bVisible = this.Visible;
-    if (!this.div_) {
-      /* 出力したい要素生成 */
-      this.div_ = document.createElement("div");
-      this.div_.innerHTML = "";
-      this.div_.style.display = "none";
-      this.div_.style.zIndex = 3;
+    this.div_ = document.createElement('div');
+    this.div_.style.borderStyle = 'none';
+    this.div_.style.borderWidth = '0px';
+    this.div_.style.position = 'absolute';
 
-      if (bVisible != undefined) {
-        if (bVisible) {
-          this.div_.style.display = "block";
-          this.div_.style.zIndex = 1;
-          if (this.ZIndex != undefined) {
-            this.div_.style.zIndex = this.ZIndex;
-          }
-        }
-      }
-      var me = this;
-      if (bVisible == false || bVisible == null) {
-        /* ラベル初期設定が、非表示の場合は、マウスオーバー／マウスアウトイベントで表示／非表示するようにする */
-        google.maps.event.addListener(this.marker_, 'mouseover', function () {
-          me.show();
-        });
-        /* マウスアウトでラベル非表示.*/
-        google.maps.event.addListener(this.marker_, 'mouseout', function () {
-          me.hide();
-        });
-      }
+    if (this.className_) {
+      this.div_.className = this.className_;
     }
+
+    const img = document.createElement('img');
+    img.src = this.imageSrc_;
+    img.style.width = this.width_ + 'px';
+    img.style.height = this.height_ + 'px';
+    this.div_.appendChild(img);
+
+    if (this.showLabel_ && this.labelContent_) {
+      const label = document.createElement('div');
+      label.textContent = this.labelContent_;
+      label.className = "post_label";
+      this.div_.appendChild(label);
+    }
+
+    const panes = this.getPanes();
+    panes.overlayLayer.appendChild(this.div_);
+
   }
 
   draw() {
-    /* 何度も呼ばれる可能性があるので、div_が未設定の場合のみ要素生成 */
-    if (this.div_) {
-      /* 出力したい要素生成 */
-      this.div_.style.position = "absolute";
-      if (this.content != undefined) {
-        this.div_.innerHTML = this.content;
-        this.div_.className = this.className;
-      }
-
-      /* 要素を追加する子を取得 */
-      var panes = this.getPanes();
-      panes.floatPane.appendChild(this.div_);
-
-      /* ラベルオブジェクト再配置 */
-      this.resetPosition();
-    }
+    const overlayProjection = this.getProjection();
+  
+    // 指定された座標（LatLngBoundsの南西角）をピクセル座標に変換
+    const sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+  
+    // オーバーレイの左上隅の座標を計算
+    // 指定された座標が画像の下端中心になるように調整
+    const divX = sw.x - this.width_ / 2;
+    const divY = sw.y - this.height_;
+  
+    // オーバーレイのスタイルを設定
+    this.div_.style.left = divX + 'px';
+    this.div_.style.top = divY + 'px';
+    this.div_.style.width = this.width_ + 'px';
+    this.div_.style.height = this.height_ + 'px';
   }
-  /* setMap(null); とすると呼びされます */
+
   onRemove() {
     if (this.div_) {
-      this.marker_.setMap(null);
       this.div_.parentNode.removeChild(this.div_);
       this.div_ = null;
-      this.setMap(null);
     }
   }
 
-  resetPosition() {
-    if (this.div_) {
-      var point = this.getProjection().fromLatLngToDivPixel(this.latlng);
-      var nImageHeight = 0;
-      try {
-        nImageHeight = this.MarkerImage.size.height;
-      } catch (e) { }
+  hideLabel() {
+    const label = this.div_.getElementsByClassName('post_label')[0];
 
-      if (this.TopPosition != undefined) {
-        nImageHeight = nImageHeight + this.TopPosition;
-      }
-      if (this.content != undefined) {
-        if (this.content != "") {
-          /* 取得したPixel情報の座標に、要素の位置を設定 */
-          this.div_.style.left = (String(point.x) - 60) + 'px';
-          this.div_.style.top = (String(point.y) - 20) + 'px';
-        }
-      }
+    if (label) {
+      label.style.display = 'none';
     }
+
+    this.bVisible = false;
   }
 
-  show() {
-    if (this.div_) {
-      this.div_.style.display = "block";
-      this.resetPosition();
+  showLabel() {
+    const label = this.div_.getElementsByClassName('post_label')[0];
+
+    if (label) {
+      label.style.display = 'flex';
     }
+    this.bVisible = true;
   }
 
-  hide() {
-    if (this.div_) {
-      this.div_.style.display = "none";
-    }
-  }
+  setImageSize(newWidth, newHeight) {
+    this.width_ = newWidth;
+    this.height_ = newHeight;
 
+    const img = this.div_.getElementsByTagName('img')[0];
+    if (img) {
+      img.style.width = this.width_ + 'px';
+      img.style.height = this.height_ + 'px';
+    }
+
+    this.draw();
+  }
+}
+
+function addImageOverlay(map, latlng, ImgUrl, lblContent, ImgWidth, ImgHeight, zoomLevel) {
+  const latLng = latlng;
+  const imageUrl = ImgUrl;
+  const width = ImgWidth; 
+  const height = ImgHeight; 
+  const className = 'post_elt'; 
+  const showLabel = zoomLevel >= 15; 
+  const labelContent = lblContent; 
+
+  var postMarker = new ImageOverlay(
+    new google.maps.LatLngBounds(latLng, latLng),
+    imageUrl,
+    map,
+    width,
+    height,
+    className,
+    showLabel,
+    labelContent
+  );
+
+  return postMarker;
 }
 
 // 地図初期化関数
@@ -209,49 +197,40 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 18,
     center: tsukuba,
+    gestureHandling: 'greedy'
   });
 
-  if (map.getZoom() < 15) {
-    imagesData.forEach(function (image) {
-      var postMarker_ = createPostMarker({ lat: image.latitude, lng: image.longitude }, image.created_at, "post_image", false, image.url, 1, 80, 80);
-      postMarkers.push(postMarker_);
-    });
-  } else {
-    imagesData.forEach(function (image) {
-      var postMarker_ = createPostMarker({ lat: image.latitude, lng: image.longitude }, image.created_at, "post_image", true, image.url, 1, 80, 80);
-      postMarkers.push(postMarker_);
-    });
-  }
+  const zoomLevel = map.getZoom();
+  imagesData.forEach(function (image) {
+    const postMarker = addImageOverlay(map, { lat: image.latitude, lng: image.longitude }, image.url, image.created_at,80, 80, zoomLevel);
+    postMarkers.push(postMarker)
+  });
 
-  map.addListener("zoom_changed", () => {
-    if (map.getZoom() < 15) {
-      hideMarkers();
+  // 地図のズームレベルが変更されたときのイベントリスナー
+  map.addListener('zoom_changed', function() {
+    const newZoomLevel = map.getZoom();
+    if (newZoomLevel >= 15) {
+      for (let i= 0; i < postMarkers.length; i++){
+        if (postMarkers[i].bVisible==false){
+          postMarkers[i].showLabel();
+        } 
+      }
     } else {
-      showMarkers();
+      for (let i= 0; i < postMarkers.length; i++){
+        if (postMarkers[i].bVisible==true){
+          postMarkers[i].hideLabel();
+        } 
+      }
     }
 
-  })
+  });
 
   map.addListener('click', function (e) {
     if (lastMarker !== null) {
       lastMarker.setMap(null);
     }
-    createLabelMarker(e.latLng, "", "add_post", false, add_post_icon, 1, 80, 80);
+    createLabelMarker(e.latLng, "", "add_post", false, add_post_icon, 1, 80, 80,false);
   });
-}
-
-//マーカーのラベルを隠す
-function hideMarkers() {
-  for (let i = 0; i < postMarkers.length; i++) {
-    postMarkers[i].hide();
-  }
-}
-
-//マーカーのラベルを隠す
-function showMarkers() {
-  for (let i = 0; i < postMarkers.length; i++) {
-    postMarkers[i].show();
-  }
 }
 
 // ポップアップフォームの閉じるボタンイベントリスナー
@@ -309,4 +288,30 @@ function toggleMenu() {
     panel.classList.add("menu-hidden");
     panel.classList.remove("menu-shown");
   }
+}
+
+var container = document.getElementById('current-post-container');
+
+if (imagesData.length > 0) {
+  var displayedUserIds = new Set();
+  imagesData.forEach(function(image) {
+    if (!displayedUserIds.has(image.user_id)) {
+      displayedUserIds.add(image.user_id);
+      var postCount = imagesData.filter(img => img.user_id === image.user_id).length;
+
+      var postCountDiv = document.createElement('div');
+      postCountDiv.className = 'post_count';
+      postCountDiv.innerHTML = '<p>' + postCount + ' </p>';
+
+      var postWrapper = document.createElement('div');
+      postWrapper.className = 'post_wrapper';
+      postWrapper.innerHTML = '<img src="' + image.url + '" class="post">' +
+                              '<p class="post_username">' + image.user_name + '</p>';
+
+      container.appendChild(postCountDiv);
+      container.appendChild(postWrapper);
+    }
+  });
+} else {
+  container.innerHTML = '<p>画像が見つかりません。</p>';
 }

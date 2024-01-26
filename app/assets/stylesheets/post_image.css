@@ -1,8 +1,21 @@
-.post_image {
+.post_label {
     color: #ffffff;
     background: #000000;
     font-size: 15px;
     text-align: center;
     padding: 5px 10px;
-    border-radius: 8px;
+    border-radius: 10px;
+    margin-left: -20px;
+    margin-top: -20px;
+    width: 40px;
+    position: absolute;
+}
+
+.post_elt {
+    cursor: pointer; 
+}
+
+.post_elt:hover {
+    transform: scale(1.2,1.2);
+    cursor: pointer; 
 }
