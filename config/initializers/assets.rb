@@ -19,4 +19,5 @@ Rails.application.config.assets.precompile += %w(
     signup.css
     map.css
     postForm.css
+    post_image.css
 )
