@@ -1,8 +1,107 @@
+<%= stylesheet_link_tag 'map', :media => 'all' %>
+<%= stylesheet_link_tag 'postForm', :media => 'all' %>
+<%= stylesheet_link_tag 'post_image', :media => 'all' %>
+
 <% content_for :js do %>
   <%= javascript_import_module_tag "map" %>
 <% end %>
 
-<h3>Maps with image Demo</h3>
-<div id="map" style="height: 100vh; width: 100%;"></div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"
-      defer></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"></script>
+<script>
+var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
+var imagesData = <%= (@images || []).map { |image|
+user = User.find(image.user_id)
+icon_url = user_icon_url(user)
+  { 
+    url: icon_url,
+    latitude: image.latitude,
+    longitude: image.longitude,
+    user_id: image.user_id,
+    image_id: image.id,
+    created_at: image.created_at.strftime('%H:%M')
+  }
+}.to_json.html_safe %>;
+
+</script>
+
+<div id="popupForm" class="popup-overlay">
+  <div class="popup-content">
+    <button type="button" id="closePopup" class="close-btn">&#10005;</button> <!-- Cross Mark -->
+    <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %>
+      <div class="image-upload">
+      <%= form.file_field :post_image, accept: 'image/*',id: 'post_image', required: true %>
+      <label for="post_image" class="image-upload-prompt">
+        <div class="upload-icon">&#128247;</div> <!-- Camera Icon -->
+        <div>画像をアップロード</div>
+        <button type="button" id="cancel-upload">画像取り消し</button>
+      </label>
+      </div>
+      <div class="field comment-section">
+        <div class="user-icon-and-label">
+          <div class="user-icon">&#128100;</div> 
+          <%= form.label :comment, 'コメント' %> <br />
+        </div>
+        <div class="comment-input">
+          <%= form.text_field :comment %>
+        </div>
+      </div>
+      <% if user_signed_in? %>
+        <%= form.hidden_field :user_id, value: current_user.id %>
+      <% else %>
+        <%= form.hidden_field :user_id, value: 0 %>
+      <% end %>
+      <%= form.hidden_field :latitude, value: 0, id: 'latitude-field' %>
+      <%= form.hidden_field :longitude, value: 0, id: 'longitude-field' %>
+      <%= form.submit "投稿", id: "submitForm", class: "submit-btn" %>
+    <% end %>
+  </div>
+</div>
+
+
+<div id="map-container">
+
+  <div id="map" style="height: 100vh; width: 100%;"></div>
+
+  <div id="sidebar">
+    <div class="current-post-wrapper">
+      <h2 class="current-posts">最近の投稿</h2>
+      <div class="current-post-container">
+        <img src="#",alt="ポスト１" class="post">
+        <img src="#",alt="ポスト２" class="post">
+        <img src="#",alt="ポスト３" class="post">
+        <img src="#",alt="ポスト４" class="post">
+      </div>
+    </div>
+  </div>
+
+  <div class="menuButton" onclick="toggleMenu()">☰</div>
+  <div id="menuPanel">
+    <div class="profile-wrapper">
+        <div class="profile-img-wrapper">
+          <img src="#" alt="顔" class="profile-img">
+        </div>
+     <div class="follow-wrapper">
+        <div>following</div><div>folowed</div>
+      </div>
+      <div class="self-intro">自己紹介</div>
+    </div>
+    <div class="ex-post-container">
+      <img src="#",alt="過去ポスト1" class="ex-post">
+      <img src="#",alt="過去ポスト2" class="ex-post">
+      <img src="#",alt="過去ポスト3" class="ex-post">
+      <img src="#",alt="過去ポスト4" class="ex-post">
+      <img src="#",alt="過去ポスト5" class="ex-post">
+      <img src="#",alt="過去ポスト6" class="ex-post">
+      <img src="#",alt="過去ポスト7" class="ex-post">
+      <img src="#",alt="過去ポスト8" class="ex-post">
+      <img src="#",alt="過去ポスト9" class="ex-post">
+    </div>
+  </div>
+
+  <div id="logo">
+    <p>My</p>
+    <p>landscape</p>
+  </div>
+
+</div>

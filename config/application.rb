@@ -16,6 +16,9 @@ module Project2024
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
 
+    # 画像のプレビュー機能用
+    config.active_storage.variant_processor = :mini_magick
+    
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

@@ -3,5 +3,6 @@ class DebugController < ApplicationController
 
     def show
       @user = current_user
+      @images = Image.all
     end
 end
