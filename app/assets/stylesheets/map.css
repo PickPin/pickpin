@@ -100,13 +100,12 @@ body, html {
     position: absolute;
     top: 0;
     right: 0;
-    width: 0;
+    width: 360px;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.99);
+    background-color: rgba(229, 109, 7, 0.92);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
-    overflow-x: hidden;
     transition: 0.5s;
-    z-index: 2;
+    z-index: 3;
 }
 
 .menu-hidden {
@@ -115,4 +114,48 @@ body, html {
 
 .menu-shown {
     width: 250px;
+}
+.profile-img-wrapper {
+    width: 360px;
+    height: 25%;
+    text-align: center;
+}
+
+.profile-img {
+    background: #fff;
+    left: 0;
+    right: 0;
+    padding: 100px;
+    margin: auto;
+    height: 50px;
+    width: 50px;
+    border-color: black;
+    border-radius: 50%;
+    border-width: 5px;
+}
+
+.follow-wrapper {
+    background: #fff;
+    height: 100px;
+    width: 350px;
+    display: flex;
+    justify-content: space-around;
+    border: black;
+}
+
+.self-intro {
+    background: #fff;
+    height: 150px;
+}
+
+.ex-post-container {
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.ex-post {
+    height:120px;
+    width: 120px;
 }
