@@ -226,7 +226,7 @@ function initMap() {
   map.addListener("zoom_changed", () => {
     if (map.getZoom() < 15) {
       hideMarkers();
-    } else{
+    } else {
       showMarkers();
     }
 
@@ -299,3 +299,14 @@ cancelUploadButton.addEventListener('click', (e) => {
     }
   }
 });
+
+function toggleMenu() {
+  var panel = document.getElementById("menuPanel");
+  if (panel.classList.contains("menu-hidden")) {
+    panel.classList.remove("menu-hidden");
+    panel.classList.add("menu-shown");
+  } else {
+    panel.classList.add("menu-hidden");
+    panel.classList.remove("menu-shown");
+  }
+}

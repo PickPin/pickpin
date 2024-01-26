@@ -6,7 +6,6 @@
   <%= javascript_import_module_tag "map" %>
 <% end %>
 
-<div id="map" style="height: 100vh; width: 100%;"></div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"></script>
 <script>
@@ -57,4 +56,52 @@ icon_url = user_icon_url(user)
       <%= form.submit "投稿", id: "submitForm", class: "submit-btn" %>
     <% end %>
   </div>
+</div>
+
+
+<div id="map-container">
+
+  <div id="map" style="height: 100vh; width: 100%;"></div>
+
+  <div id="sidebar">
+    <div class="current-post-wrapper">
+      <h2 class="current-posts">最近の投稿</h2>
+      <div class="current-post-container">
+        <img src="#",alt="ポスト１" class="post">
+        <img src="#",alt="ポスト２" class="post">
+        <img src="#",alt="ポスト３" class="post">
+        <img src="#",alt="ポスト４" class="post">
+      </div>
+    </div>
+  </div>
+
+  <div class="menuButton" onclick="toggleMenu()">☰</div>
+  <div id="menuPanel">
+    <div class="profile-wrapper">
+        <div class="profile-img-wrapper">
+          <img src="#" alt="顔" class="profile-img">
+        </div>
+     <div class="follow-wrapper">
+        <div>following</div><div>folowed</div>
+      </div>
+      <div class="self-intro">自己紹介</div>
+    </div>
+    <div class="ex-post-container">
+      <img src="#",alt="過去ポスト1" class="ex-post">
+      <img src="#",alt="過去ポスト2" class="ex-post">
+      <img src="#",alt="過去ポスト3" class="ex-post">
+      <img src="#",alt="過去ポスト4" class="ex-post">
+      <img src="#",alt="過去ポスト5" class="ex-post">
+      <img src="#",alt="過去ポスト6" class="ex-post">
+      <img src="#",alt="過去ポスト7" class="ex-post">
+      <img src="#",alt="過去ポスト8" class="ex-post">
+      <img src="#",alt="過去ポスト9" class="ex-post">
+    </div>
+  </div>
+
+  <div id="logo">
+    <p>My</p>
+    <p>landscape</p>
+  </div>
+
 </div>
