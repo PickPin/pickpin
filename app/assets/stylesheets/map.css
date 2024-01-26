@@ -152,12 +152,14 @@ h3 {
 }
 
 .follow-wrapper {
-    background: #fff;
     height: 100px;
-    width: 350px;
     display: flex;
     justify-content: space-around;
     border: black;
+}
+
+.follow-wrapper div {
+    margin: auto;
 }
 
 .self-intro {
