@@ -67,11 +67,15 @@ icon_url = user_icon_url(user)
     <div class="current-post-wrapper">
       <h2 class="current-posts">最近の投稿</h2>
       <div class="current-post-container">
-        <img src="#",alt="ポスト１" class="post">
-        <img src="#",alt="ポスト２" class="post">
-        <img src="#",alt="ポスト３" class="post">
-        <img src="#",alt="ポスト４" class="post">
-      </div>
+      <% if @imagesData %>
+      <% imagesData = JSON.parse(@imagesData) %>
+      <% imagesData.first(4).each_with_index do |image, index| %>
+        <img src="<%= image['url'] %>", alt="ポスト<%= index + 1 %>", class="post">
+      <% end %>
+    <% else %>
+      <p>画像が見つかりません。</p>
+    <% end %>
+    </div>
     </div>
   </div>
 
