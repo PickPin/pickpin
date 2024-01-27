@@ -67,20 +67,11 @@ icon_url = user_icon_url(user)
     <div class="current-post-wrapper">
       <h2 class="current-posts">最近の投稿</h2>
       <div class="current-post-container">
-      <% if @images %>
-        <% displayed_user_ids = Set.new %>
-        <% @images.each do |image| %>
-          <% user = User.find(image.user_id) %>
-          <% unless displayed_user_ids.include?(user.id) %>
-            <% displayed_user_ids.add(user.id) %>
-            <% icon_url = user_icon_url(user) %>
-            <img src="<%= icon_url %>", class="post">
-          <% end %>
-        <% end %>
-      <% else %>
-        <p>画像が見つかりません。</p>
-      <% end %>
-    </div>
+        <img src="#",alt="ポスト１" class="post">
+        <img src="#",alt="ポスト２" class="post">
+        <img src="#",alt="ポスト３" class="post">
+        <img src="#",alt="ポスト４" class="post">
+      </div>
     </div>
   </div>
 
@@ -88,12 +79,14 @@ icon_url = user_icon_url(user)
   <div id="menuPanel">
     <div class="profile-wrapper">
         <div class="profile-img-wrapper">
-          <%= image_tag icon_url,%>
+          <div><img src="/app/assets/images/userIcon.png" alt="顔" class="profile-img"></div>
+          <div class="profile-edit"><%= link_to "Edit profile", root_path, class:"btn btn--orange" %></div>
+          <div class="profile-name"><%= @user.name %></div>
         </div>
      <div class="follow-wrapper">
-        <div>following</div><div>folowed</div>
+        <div class="follow-count">following<br>99</div><div class="follow-count">folowed<br>99</div>
       </div>
-      <div class="self-intro">自己紹介</div>
+      <div class="self-intro">自己紹介のスペースです。</div>
     </div>
     <div class="ex-post-container">
       <img src="#",alt="過去ポスト1" class="ex-post">
