@@ -1,19 +1,31 @@
 <%= stylesheet_link_tag 'map', :media => 'all' %>
 <%= stylesheet_link_tag 'postForm', :media => 'all' %>
 <%= stylesheet_link_tag 'post_image', :media => 'all' %>
+<%= stylesheet_link_tag 'postShow', :media => 'all' %>
+<%= stylesheet_link_tag 'menuButton', :media => 'all' %>
+<%= stylesheet_link_tag 'sidebar', :media => 'all' %>
 
 <% content_for :js do %>
   <%= javascript_import_module_tag "map" %>
+  <%= javascript_import_module_tag "sidebar" %>
+  <%= javascript_import_module_tag  "userSearch" %>
 <% end %>
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"></script>
 <script>
 var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
-var imagesData = <%= (@images || []).map { |image|
-user = User.find(image.user_id)
-icon_url = user_icon_url(user)
+var postGreenButton = "<%= asset_path('postGreenButton.png') %>";
+var login_user_id = "<%= @user_id %>";
+var login_user_name = "<%= @user_name %>"
+var login_user_icon = "<%= user_icon_url(@user) %>";
+var post_triger_icon = "<%= asset_path('forPostTriger.png') %>";
+
+var imagesData = <%= (@images || []).each_with_index.map { |image, index|
+  user = User.find(image.user_id)
+  icon_url = user_icon_url(user)
   { 
+    id: index, 
     url: icon_url,
     latitude: image.latitude,
     longitude: image.longitude,
@@ -28,7 +40,7 @@ icon_url = user_icon_url(user)
 
 <div id="popupForm" class="popup-overlay">
   <div class="popup-content">
-    <button type="button" id="closePopup" class="close-btn">&#10005;</button> <!-- Cross Mark -->
+    <button type="button" id="close-btn" class="close-btn">&#10005;</button> <!-- Cross Mark -->
     <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %>
       <div class="image-upload">
       <%= form.file_field :post_image, accept: 'image/*',id: 'post_image', required: true %>
@@ -59,6 +71,13 @@ icon_url = user_icon_url(user)
   </div>
 </div>
 
+<div id="popup-view-background" class="popup-view-background">
+  <div id="popup-view-content" class="popup-view-content">
+    <span id="close-view-popup" class="close-view-popup">&times;</span>
+    <img id="popup-view-image" class="popup-view-image" src="" alt="Popup Image">
+  </div>
+</div>
+
 
 <div id="map-container">
 
@@ -72,7 +91,29 @@ icon_url = user_icon_url(user)
     </div>
   </div>
 
-  <div class="menuButton" onclick="toggleMenu()">☰</div>
+  <div id="RightSideMenuList">
+    <div class="myProfile menuButton">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    <div class="user-search menuButton" id="userSearchSideBarOpenButton">
+      <img src="<%= asset_path('search.png') %>"class="menuButtonIcon search">
+    </div>
+  </div>
+
+  <div class="search-sidbar sidebar" id="userSearchSideBar">
+    <button class="closeSideBar" id="closeUserSearchSidebar">×</button>
+
+    <h1>Ajaxを使ってみよう</h1>
+    <%= form_tag(url_for(:action => 'index'), :remote => true) do %>
+      <%= text_field_tag :title %>
+      <%= submit_tag "タイトルを変更する" %>
+    <% end %>
+
+  </div>
+
+<%#
   <div id="menuPanel">
     <div class="profile-wrapper">
         <div class="profile-img-wrapper">
@@ -100,5 +141,7 @@ icon_url = user_icon_url(user)
     <p>My</p>
     <p>landscape</p>
   </div>
+
+  %>
 
 </div>

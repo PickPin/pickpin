@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # get "/map", to: "map#index"
   # resources :map
   root "map#index"
+
   resources :images
 
   get 'debug', to: 'debug#show'

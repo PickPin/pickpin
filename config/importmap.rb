@@ -8,3 +8,5 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 
 # 追記
 pin "map"
+pin "sidebar"
+pin "userSearch"

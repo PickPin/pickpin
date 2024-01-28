@@ -1,0 +1,46 @@
+.popup-view-background {
+    display: none;
+    /* 最初は非表示 */
+    position: absolute;
+    /* ページに固定 */
+    z-index: 1020;
+    /* 他のコンテンツの上に表示 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* 全幅 */
+    height: 100%;
+    /* 全高 */
+    overflow: auto;
+    /* スクロール可能 */
+    background-color: rgb(0, 0, 0);
+    /* 背景色 */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* 背景色 (透明度付き) */
+}
+
+.popup-view-content{
+    position: relative;
+    width: 700px;
+    height: 400px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-view-popup:hover,
+.close-view-popup:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 画像自体のスタイル */
+.popup-view-image {
+    width: 100%;
+    /* コンテンツ幅いっぱい */
+    height: auto;
+    /* 高さは自動 */
+}

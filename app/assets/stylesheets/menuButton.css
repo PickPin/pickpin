@@ -1,0 +1,46 @@
+#RightSideMenuList {
+    position: absolute;
+    width: 5vw;
+    right: 0;
+    top: 0;
+    z-index: 1010;
+    justify-content: center;
+    display: flex;
+    flex-flow: column;
+}
+
+.menuButton {
+    top: 0;
+    right: 0;
+    width: 5vh;
+    height: 5vh;
+    background-color: #FFFFFFCC; /* 半透明の背景 */
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1010;
+    margin: 5px auto;
+    justify-content: center;
+    text-align: center;
+}
+
+.myProfile{
+    font-size: 2.5rem;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+}
+
+.bar {
+    width: 60%;
+    height: 2px;
+    margin: 3px auto;
+    background-color: #000000;
+}
+
+.menuButtonIcon{
+    height: 90%;
+    width: 90%;
+}
