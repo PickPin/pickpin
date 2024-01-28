@@ -105,12 +105,6 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
   <div class="search-sidbar sidebar" id="userSearchSideBar">
     <button class="closeSideBar" id="closeUserSearchSidebar">×</button>
 
-    <h1>Ajaxを使ってみよう</h1>
-    <%= form_tag(url_for(:action => 'index'), :remote => true) do %>
-      <%= text_field_tag :title %>
-      <%= submit_tag "タイトルを変更する" %>
-    <% end %>
-
   </div>
 
 <%#
