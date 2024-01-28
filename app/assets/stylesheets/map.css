@@ -113,26 +113,82 @@ h3 {
     cursor: pointer;
     z-index: 1010;
 }
+.noticeButton {
+    position: absolute;
+    top: 130px;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(229, 109, 7, 0.92);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
+    color: black;
+    text-align: center;
+    padding: 20px;
+    line-height: 90px;
+    font-size: 4rem;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1010;
+}
 
 #menuPanel {
     position: absolute;
     top: 0;
     right: 0;
-    width: 360px;
+    width: 0;
     height: 100%;
     background-color: rgba(229, 109, 7, 0.92);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
+    overflow-x: hidden;
     transition: 0.5s;
     z-index: 1010;
 }
 
+#noticePanel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(229, 109, 7, 0.92);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
+    overflow-x: hidden;
+    transition: 0.5s;
+    z-index: 1010;
+}
+
+.noticeHeader {
+    padding: 0 auto;
+    height: 50px;
+    font-size: 40px;
+    text-align: center;
+    border-bottom: 2px solid #eb6100;
+}
+
+.notice-container {
+    display: flex;
+}
+
+.notice {
+    height: 80px;
+    width: 360px;
+    border-bottom: 1px inset #eb6100;
+}
 .menu-hidden {
     width: 0;
 }
 
 .menu-shown {
-    width: 250px;
+    width: 360px;
 }
+.notice-hidden {
+    width: 0;
+}
+
+.notice-shown {
+    width: 360px;
+}
+
 .profile-img-wrapper {
     width: 360px;
     height: 320px;
@@ -213,7 +269,8 @@ h3 {
     padding: 10px 0 auto;
 }
 .self-intro {
-    height: 150px;
+    height: 100px;
+    border-bottom: 2px solid #eb6100;
 }
 
 .ex-post-container {

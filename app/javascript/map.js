@@ -310,3 +310,14 @@ function toggleMenu() {
     panel.classList.remove("menu-shown");
   }
 }
+
+function notice_toggleMenu() {
+  var panel = document.getElementById("noticePanel");
+  if (panel.classList.contains("notice-hidden")) {
+    panel.classList.remove("notice-hidden");
+    panel.classList.add("notice-shown");
+  } else {
+    panel.classList.add("notice-hidden");
+    panel.classList.remove("notice-shown");
+  }
+}

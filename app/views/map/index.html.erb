@@ -76,8 +76,9 @@ icon_url = user_icon_url(user)
   </div>
 
   <div class="menuButton" onclick="toggleMenu()">☰</div>
-  <div id="menuPanel">
-    <div class="profile-wrapper">
+  <div class="noticeButton" onclick="notice_toggleMenu()">♡</div>
+  <div id="menuPanel" class="menu-hidden" >
+    <div class="-wrapper">
         <div class="profile-img-wrapper">
           <div><img src="/app/assets/images/userIcon.png" alt="顔" class="profile-img"></div>
           <div class="profile-edit"><%= link_to "Edit profile", root_path, class:"btn btn--orange" %></div>
@@ -98,6 +99,20 @@ icon_url = user_icon_url(user)
       <img src="#",alt="過去ポスト7" class="ex-post">
       <img src="#",alt="過去ポスト8" class="ex-post">
       <img src="#",alt="過去ポスト9" class="ex-post">
+    </div>
+  </div>
+
+  <div id="noticePanel" class="notice-hidden">
+    <div class="noticeHeader">お知らせ</div>
+    <div class="notice-container">
+      <div class="notice">通知1</div>
+      <div class="notice">通知2</div>
+      <div class="notice">通知3</div>
+      <div class="notice">通知4</div>
+      <div class="notice">通知5</div>
+      <div class="notice">通知6</div>
+      <div class="notice">通知7</div>
+      <div class="notice">通知8</div>
     </div>
   </div>
 
