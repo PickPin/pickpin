@@ -201,7 +201,7 @@ h3 {
 }
 
 .notice-container {
-    display: flex;
+    display: block;
 }
 
 .notice {
