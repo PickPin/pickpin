@@ -39,7 +39,7 @@ icon_url = user_icon_url(user)
       </div>
       <div class="field comment-section">
         <div class="user-icon-and-label">
-          <div class="user-icon">&#128100;</div> 
+          <div class="user-icon">&#128100;</div>
           <%= form.label :comment, 'コメント' %> <br />
         </div>
         <div class="comment-input">
@@ -75,20 +75,23 @@ icon_url = user_icon_url(user)
     </div>
   </div>
 
-  <div class="menuButton" onclick="toggleMenu()">☰</div>
-  <div class="noticeButton" onclick="notice_toggleMenu()">♡</div>
+  <button type="button" id="menuButton">☰</button>
+  <button type="button" id="noticeButton">♡</button>
+  <button type="button" id="searchButton">@</button>
+
   <div id="menuPanel" class="menu-hidden" >
-    <div class="-wrapper">
+    <div class="profile-wapper">
         <div class="profile-img-wrapper">
           <div><img src="/app/assets/images/userIcon.png" alt="顔" class="profile-img"></div>
           <div class="profile-edit"><%= link_to "Edit profile", root_path, class:"btn btn--orange" %></div>
           <div class="profile-name"><%= @user.name %></div>
         </div>
-     <div class="follow-wrapper">
+      <div class="follow-wrapper">
         <div class="follow-count">following<br>99</div><div class="follow-count">folowed<br>99</div>
       </div>
       <div class="self-intro">自己紹介のスペースです。</div>
     </div>
+
     <div class="ex-post-container">
       <img src="#",alt="過去ポスト1" class="ex-post">
       <img src="#",alt="過去ポスト2" class="ex-post">
@@ -100,9 +103,10 @@ icon_url = user_icon_url(user)
       <img src="#",alt="過去ポスト8" class="ex-post">
       <img src="#",alt="過去ポスト9" class="ex-post">
     </div>
+    <button type="button" id="closeButton" class="close-btn">&#10005;</button>
   </div>
 
-  <div id="noticePanel" class="notice-hidden">
+  <div id="noticePanel" class="menu-hidden">
     <div class="noticeHeader">お知らせ</div>
     <div class="notice-container">
       <div class="notice">通知1</div>
@@ -114,6 +118,12 @@ icon_url = user_icon_url(user)
       <div class="notice">通知7</div>
       <div class="notice">通知8</div>
     </div>
+    <button type="button" id="notice-closeButton" class="close-btn">&#10005;</button>
+  </div>
+
+  <div id="searchPanel" class="menu-hidden">
+    <div class="searchHeader">検索</div>
+    <button type="button" id="search-closeButton" class="close-btn">&#10005;</button>
   </div>
 
   <div id="logo">

@@ -299,25 +299,57 @@ cancelUploadButton.addEventListener('click', (e) => {
     }
   }
 });
+// メニューパネルの開閉
+document.addEventListener('DOMContentLoaded', function() {
+  var menuButton = document.getElementById('menuButton');
+  var closeButton = document.getElementById('closeButton');
+  var menu = document.getElementById('menuPanel');
 
-function toggleMenu() {
-  var panel = document.getElementById("menuPanel");
-  if (panel.classList.contains("menu-hidden")) {
-    panel.classList.remove("menu-hidden");
-    panel.classList.add("menu-shown");
-  } else {
-    panel.classList.add("menu-hidden");
-    panel.classList.remove("menu-shown");
-  }
-}
+  menuButton.addEventListener('click', function() {
+      menuPanel.classList.add('menu-shown');
+      menuPanel.classList.remove('menu-hidden');
+  });
 
-function notice_toggleMenu() {
-  var panel = document.getElementById("noticePanel");
-  if (panel.classList.contains("notice-hidden")) {
-    panel.classList.remove("notice-hidden");
-    panel.classList.add("notice-shown");
-  } else {
-    panel.classList.add("notice-hidden");
-    panel.classList.remove("notice-shown");
-  }
-}
+  closeButton.addEventListener('click', function() {
+      menuPanel.classList.add('menu-hidden');
+      menuPanel.classList.remove('menu-shown');
+  });
+});
+// 通知パネルの開閉
+document.addEventListener('DOMContentLoaded', function() {
+  var menuButton = document.getElementById('noticeButton');
+  var closeButton = document.getElementById('notice-closeButton');
+  var menu = document.getElementById('noticePanel');
+
+  menuButton.addEventListener('click', function() {
+      noticePanel.classList.add('menu-shown');
+      noticePanel.classList.remove('menu-hidden');
+  });
+
+  closeButton.addEventListener('click', function() {
+      noticePanel.classList.add('menu-hidden');
+      noticePanel.classList.remove('menu-shown');
+  });
+});
+// 検索パネルの開閉
+document.addEventListener('DOMContentLoaded', function() {
+  var menuButton = document.getElementById('searchButton');
+  var closeButton = document.getElementById('search-closeButton');
+  var menu = document.getElementById('searchPanel');
+
+  menuButton.addEventListener('click', function() {
+      searchPanel.classList.add('menu-shown');
+      searchPanel.classList.remove('menu-hidden');
+  });
+
+  closeButton.addEventListener('click', function() {
+      searchPanel.classList.add('menu-hidden');
+      searchPanel.classList.remove('menu-shown');
+  });
+});
+
+
+// プロフィール編集ポップアップフォームの閉じるボタンイベントリスナー
+document.getElementById('close-edit-Popup').addEventListener('click', function () {
+  document.getElementById('edit-popupform').style.display = 'none';
+});
