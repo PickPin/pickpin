@@ -4,6 +4,7 @@ module UsersHelper
           rails_blob_path(user.icon, only_path: true)
         else
         asset_path('userIcon.png') 
-      end
+        end
     end
+
 end

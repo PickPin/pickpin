@@ -1,23 +1,36 @@
 <%= stylesheet_link_tag 'map', :media => 'all' %>
 <%= stylesheet_link_tag 'postForm', :media => 'all' %>
 <%= stylesheet_link_tag 'post_image', :media => 'all' %>
+<%= stylesheet_link_tag 'postShow', :media => 'all' %>
+<%= stylesheet_link_tag 'menuButton', :media => 'all' %>
+<%= stylesheet_link_tag 'sidebar', :media => 'all' %>
 
 <% content_for :js do %>
   <%= javascript_import_module_tag "map" %>
+  <%= javascript_import_module_tag "sidebar" %>
+  <%= javascript_import_module_tag  "userSearch" %>
 <% end %>
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgixBC-unxRTH-NrxJ3eF14qzKMIPGp2c&callback=initMap&v=weekly"></script>
 <script>
 var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
-var imagesData = <%= (@images || []).map { |image|
-user = User.find(image.user_id)
-icon_url = user_icon_url(user)
+var postGreenButton = "<%= asset_path('postGreenButton.png') %>";
+var login_user_id = "<%= @user_id %>";
+var login_user_name = "<%= @user_name %>"
+var login_user_icon = "<%= user_icon_url(@user) %>";
+var post_triger_icon = "<%= asset_path('forPostTriger.png') %>";
+
+var imagesData = <%= (@images || []).each_with_index.map { |image, index|
+  user = User.find(image.user_id)
+  icon_url = user_icon_url(user)
   { 
+    id: index, 
     url: icon_url,
     latitude: image.latitude,
     longitude: image.longitude,
     user_id: image.user_id,
+    user_name: user.name,
     image_id: image.id,
     created_at: image.created_at.strftime('%H:%M')
   }
@@ -27,7 +40,7 @@ icon_url = user_icon_url(user)
 
 <div id="popupForm" class="popup-overlay">
   <div class="popup-content">
-    <button type="button" id="closePopup" class="close-btn">&#10005;</button> <!-- Cross Mark -->
+    <button type="button" id="close-btn" class="close-btn">&#10005;</button> <!-- Cross Mark -->
     <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %>
       <div class="image-upload">
       <%= form.file_field :post_image, accept: 'image/*',id: 'post_image', required: true %>
@@ -58,6 +71,13 @@ icon_url = user_icon_url(user)
   </div>
 </div>
 
+<div id="popup-view-background" class="popup-view-background">
+  <div id="popup-view-content" class="popup-view-content">
+    <span id="close-view-popup" class="close-view-popup">&times;</span>
+    <img id="popup-view-image" class="popup-view-image" src="" alt="Popup Image">
+  </div>
+</div>
+
 
 <div id="map-container">
 
@@ -65,22 +85,77 @@ icon_url = user_icon_url(user)
 
   <div id="sidebar">
     <div class="current-post-wrapper">
-      <h2 class="current-posts">最近の投稿</h2>
-      <div class="current-post-container">
-        <img src="#",alt="ポスト１" class="post">
-        <img src="#",alt="ポスト２" class="post">
-        <img src="#",alt="ポスト３" class="post">
-        <img src="#",alt="ポスト４" class="post">
+      <div id="current-post-container">
+
       </div>
     </div>
   </div>
 
-  <button type="button" id="menuButton">☰</button>
-  <button type="button" id="noticeButton">♡</button>
-  <button type="button" id="searchButton">@</button>
+  <div id="RightSideMenuList">
+    <div class="myProfile menuButton" id="myProfileSideBarOpenButton">
+      <img src="<%= asset_path('search.png') %>"class="menuButtonIcon search">
+    </div>
+    <div class="user-search menuButton" id="userSearchSideBarOpenButton">
+      <img src="<%= asset_path('search.png') %>"class="menuButtonIcon search">
+    </div>
+    <div class="notion menuButton" id="userSearchSideBarOpenButton">
+      <img src="<%= asset_path('search.png') %>"class="menuButtonIcon search">
+    </div>
+  </div>
 
-  <div id="menuPanel" class="menu-hidden" >
+  <div class="myProfileSideBar  sidebar" id="myProfileSideBar" >
+  <button class="closeSideBar" id="closeMyProfileSidebar">×</button>
     <div class="profile-wapper">
+        <div class="profile-img-wrapper">
+          <div><img src="/app/assets/images/userIcon.png" alt="顔" class="profile-img"></div>
+          <div class="profile-edit"><%= link_to "Edit profile", root_path, class:"btn btn--orange" %></div>
+          <div class="profile-name"><%= @user.name %></div>
+        </div>
+      <div class="follow-wrapper">
+        <div class="follow-count">following<br>99</div><div class="follow-count">folowed<br>99</div>
+      </div>
+      <div class="self-intro">自己紹介のスペースです。</div>
+    </div>
+
+    <div class="ex-post-container">
+      <img src="#",alt="過去ポスト1" class="ex-post">
+      <img src="#",alt="過去ポスト2" class="ex-post">
+      <img src="#",alt="過去ポスト3" class="ex-post">
+      <img src="#",alt="過去ポスト4" class="ex-post">
+      <img src="#",alt="過去ポスト5" class="ex-post">
+      <img src="#",alt="過去ポスト6" class="ex-post">
+      <img src="#",alt="過去ポスト7" class="ex-post">
+      <img src="#",alt="過去ポスト8" class="ex-post">
+      <img src="#",alt="過去ポスト9" class="ex-post">
+    </div>
+  </div>
+
+
+
+
+  <div class="search-sidebar sidebar" id="userSearchSideBar">
+    <button class="closeSideBar" id="closeUserSearchSidebar">×</button>
+
+
+    <%= search_form_for @search, url: users_search_path, html: { data: { turbo_frame: "user-search-turbo"}} do |f| %>
+
+      <%= f.search_field :name_cont , placeholder: "ユーザー名"%>
+    
+      <button type="submit">
+        <img src="<%= asset_path('search.png') %>" alt="検索">
+      </button>
+    <% end %>
+    
+    <div id="user-search-border"></div>
+    
+    <turbo-frame id="user-search-turbo">
+    </turbo-frame>
+
+  </div>
+
+<%#
+  <div id="menuPanel">
+    <div class="profile-wrapper">
         <div class="profile-img-wrapper">
           <div><img src="/app/assets/images/userIcon.png" alt="顔" class="profile-img"></div>
           <div class="profile-edit"><%= link_to "Edit profile", root_path, class:"btn btn--orange" %></div>
@@ -130,4 +205,5 @@ icon_url = user_icon_url(user)
     <p>My</p>
     <p>landscape</p>
   </div>
+
 </div>
