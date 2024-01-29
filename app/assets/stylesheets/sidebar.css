@@ -114,3 +114,23 @@
 .search-res-user-name p {
     font-size: 1.2rem;
 }
+
+.search-res-user-relationship{
+    display: flex;
+    margin: auto 0 auto auto;
+}
+
+.search-res-user-relationship button{
+    height: 40px;
+    width: 60px;
+    margin: auto 0 auto auto;
+    background-color: #3879D9;
+    border-radius: 10px;
+    border: 1px solid #c2c2c2;
+}
+
+.search-res-user-relationship button a {
+    font-size: 0.7rem;
+    color: #000;
+    text-decoration: none;
+}
