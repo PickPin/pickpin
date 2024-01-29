@@ -347,9 +347,3 @@ document.addEventListener('DOMContentLoaded', function() {
       searchPanel.classList.remove('menu-shown');
   });
 });
-
-
-// プロフィール編集ポップアップフォームの閉じるボタンイベントリスナー
-document.getElementById('close-edit-Popup').addEventListener('click', function () {
-  document.getElementById('edit-popupform').style.display = 'none';
-});
