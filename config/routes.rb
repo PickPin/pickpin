@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root "map#index"
 
   resources :images
+  get 'users/search', to: 'users#search'
 
   get 'debug', to: 'debug#show'
 end

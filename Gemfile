@@ -25,6 +25,9 @@ gem 'devise'
 gem "image_processing", "~> 1.2"
 gem 'mini_magick'
 
+# ajax用
+gem 'ransack'
+
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 

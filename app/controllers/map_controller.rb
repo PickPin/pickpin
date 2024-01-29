@@ -9,6 +9,8 @@ class MapController < ApplicationController
     @images = Image.where(user_id: @user_id)
                    .where('created_at >= ?', 24.hours.ago)
 
+    @search = User.ransack(params[:q])
+
   end
 
 end

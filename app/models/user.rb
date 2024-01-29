@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  def self.ransackable_attributes(auth_object = nil)
+    ["name"]
+  end
+
   has_one_attached :icon
   
   # Include default devise modules. Others available are:

@@ -1,0 +1,13 @@
+<turbo-frame id="user-search-turbo">
+
+  <% @users.each do |user| %>
+    <div class="search-res-user">
+        <div class="search-res-user-icon">
+            <img src="<%= user_icon_url(user) %>">
+        </div>
+        <div class="search-res-user-name">
+            <p><%= user.name %></p>
+        </div>
+    </div>
+  <% end %>
+</turbo-frame>

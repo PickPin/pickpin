@@ -7,9 +7,12 @@
     z-index: 1030;
     background-color: #ffffff;
     transition: all 0.5s;
+    border: 1px solid #c2c2c2;
+    text-align: center;
+    flex-flow: column;
 }
 
-.search-sidbar.sidebar.menu-active {
+.search-sidebar.sidebar.menu-active {
     right: 0;
 }
 
@@ -22,4 +25,92 @@
     outline: none;
     background: transparent;
     cursor: pointer;
+}
+
+
+
+.user_search {
+    box-sizing: border-box;
+    position: relative;
+    border: 1px solid #c2c2c2;
+    padding: 3px 0;
+    border-radius: 10px;
+    height: 2.3em;
+    width: 90%;
+    overflow: hidden;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.user_search input[type="search"] {
+    border: none;
+    height: 2.0em;
+    width: 95%;
+}
+
+.user_search input[type="search"]:focus {
+    outline: 0;
+}
+
+.user_search button {
+    cursor: pointer;
+    border: none;
+    background: #3879D9; /* ボタンの背景色 */
+    color: #fff; /* テキストの色 - この場合はボタン内のテキストがないので不要かもしれません */
+    position: absolute;
+    width: 3.5em; /* ボタンの幅 */
+    height: 3.0em; /* ボタンの高さ */
+    right: 0px; /* 右からの位置 */
+    top: -3px; /* 上からの位置 */
+    outline: none; /* フォーカス時のアウトラインを削除 */
+}
+
+.user_search button img {
+    display: block;
+    width: 100%; /* 画像をボタンのサイズに合わせる */
+    height: auto;
+}
+
+#user-search-turbo {
+    display: flex;
+    flex-flow: column;
+}
+
+#user-search-border {
+    height: 1px;
+    background-color: #c2c2c2;
+    margin: 20px auto;
+}
+
+.search-res-user{
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+    width: 90%;
+    margin: auto;
+    cursor: pointer;
+}
+
+.search-res-user-icon {
+    height: 70px;
+    width: 70px;
+}
+
+.search-res-user-icon img{
+    height: 100%;
+    width: 100%;
+}
+
+.search-res-user-icon img{
+    height: 100%;
+    width: 100%;
+}
+
+.search-res-user-name{
+    text-align: center;
+    padding: 5px;
+}
+
+.search-res-user-name p {
+    font-size: 1.2rem;
 }

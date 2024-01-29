@@ -102,8 +102,23 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
     </div>
   </div>
 
-  <div class="search-sidbar sidebar" id="userSearchSideBar">
+  <div class="search-sidebar sidebar" id="userSearchSideBar">
     <button class="closeSideBar" id="closeUserSearchSidebar">×</button>
+
+
+    <%= search_form_for @search, url: users_search_path, html: { data: { turbo_frame: "user-search-turbo"}} do |f| %>
+
+      <%= f.search_field :name_cont , placeholder: "ユーザー名"%>
+    
+      <button type="submit">
+        <img src="<%= asset_path('search.png') %>" alt="検索">
+      </button>
+    <% end %>
+    
+    <div id="user-search-border"></div>
+    
+    <turbo-frame id="user-search-turbo">
+    </turbo-frame>
 
   </div>
 
