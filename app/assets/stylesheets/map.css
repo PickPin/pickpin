@@ -65,7 +65,7 @@ h3 {
 }
 
 .post_wrapper {
-    display: flex;
+    display: flex;    
     flex-flow: column;
 }
 
