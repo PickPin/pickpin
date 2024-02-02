@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
     def search
-        @users = User.where('name LIKE(?)', "%#{params[:keyword]}%")
+        @search = User.ransack(params[:q])
+        @users = @search.result(distinct: true)
         render partial: 'search'
     end
 end

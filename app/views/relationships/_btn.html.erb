@@ -1,7 +1,9 @@
 <% if current_user != user %>
-  <% if current_user.following?(user) %>
-    <%= link_to "フォロー外す", user_relationships_path(user.id),  data: { "turbo-method": :delete }, class: options[:class].presence || "btn btn-info" %>
-  <% else %>
-    <%= link_to "フォローする", user_relationships_path(user.id), data: { "turbo-method": :post }, class: options[:class].presence || "btn btn-success" %>
-  <% end %>
+  <turbo-frame id="user-follow-button-<%= user.id %>">
+    <% if current_user.following?(user) %>
+      <%= link_to "フォロー外す", user_relationships_path(user.id), data: { "turbo-method": :delete }, class: "btn btn-info" %>
+    <% else %>
+      <%= link_to "フォローする", user_relationships_path(user.id), data: { "turbo-method": :post }, class: "btn btn-success" %>
+    <% end %>
+  </turbo-frame>
 <% end %>

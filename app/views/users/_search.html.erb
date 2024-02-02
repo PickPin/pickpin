@@ -1,5 +1,5 @@
 <turbo-frame id="user-search-turbo">
-
+  <% if !@users.empty? %>
   <% @users.each do |user| %>
     <div class="search-res-user">
         <div class="search-res-user-icon">
@@ -10,7 +10,7 @@
         </div>
         <div class="search-res-user-relationship">
           <% if current_user != user %>
-            <button><%= render "relationships/btn", user: user, options: { class: ""} %></button>
+            <button><%= render "relationships/btn", user: user, search: @search, options: { class: ""} %></button>
           <% else %>
             <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
               <i class="fas fa-user-cog"></i>
@@ -18,5 +18,8 @@
           <% end %>
         </div>
     </div>
+  <% end %>
+  <% else %>
+    <p>ユーザーが見つかりませんでした。</p>
   <% end %>
 </turbo-frame>

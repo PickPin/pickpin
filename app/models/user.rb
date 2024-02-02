@@ -3,7 +3,14 @@ class User < ApplicationRecord
     ["name"]
   end
 
+  has_many :likes
+  has_many :liked_images, through: :likes, source: :image
+  
+
   has_one_attached :icon
+
+  has_many :notifications
+  
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

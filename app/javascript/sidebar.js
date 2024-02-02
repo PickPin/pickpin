@@ -1,9 +1,12 @@
 var userSearchSideBarOpenButton = document.getElementById('userSearchSideBarOpenButton');
 var myProfileSideBarOpenButton = document.getElementById('myProfileSideBarOpenButton');
+var notificationSideBarOpenButton = document.getElementById('notificationSideBarOpenButton');
 var myProfileSideBar = document.getElementById('myProfileSideBar');
 var userSearchSideBar = document.getElementById('userSearchSideBar');
+var notificationSideBar = document.getElementById('notificationSideBar');
 var closeUserSearchSidebar = document.getElementById('closeUserSearchSidebar');
 var closeMyProfileSidebar = document.getElementById('closeMyProfileSidebar')
+var closeNotificationSidebar = document.getElementById('closeNotificationSidebar')
 var selectedSideBar;
 
 
@@ -11,16 +14,14 @@ function showAndHideSidebar(sideBarId) {
   console.log(sideBarId)
   switch (sideBarId) {
     case 0:
-      selectedSideBar = myProfileSideBar
+      selectedSideBar = myProfileSideBar;
       break;
     case 1:
       selectedSideBar = userSearchSideBar;
       break;
-    case 'orange':
-      console.log('The fruit is an orange.');
+    case 2:
+      selectedSideBar = notificationSideBar;
       break;
-    default:
-      console.log('The fruit is not in the list.');
   }
   if (selectedSideBar.classList.contains('menu-active')) {
     selectedSideBar.classList.remove('menu-active');
@@ -46,3 +47,12 @@ myProfileSideBarOpenButton.addEventListener("click", function() {
 closeMyProfileSidebar.addEventListener("click", function() {
   showAndHideSidebar(0); 
 });
+
+notificationSideBarOpenButton.addEventListener("click", function() {
+  showAndHideSidebar(2); 
+});
+
+closeNotificationSidebar.addEventListener("click", function() {
+  showAndHideSidebar(2); 
+});
+

@@ -28,6 +28,12 @@ gem 'mini_magick'
 # ajax用
 gem 'ransack'
 
+# 通知用
+gem 'kaminari'
+
+# 日本語対応用
+gem 'i18n_generators'
+
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 

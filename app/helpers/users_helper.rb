@@ -7,4 +7,8 @@ module UsersHelper
         end
     end
 
+    def find_user_by_id(user_id)
+      User.find_by(id: user_id)
+    end
+
 end

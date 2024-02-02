@@ -384,3 +384,50 @@ h3 {
     height:120px;
     width: 120px;
 }
+
+
+#pac-input {
+    position: absolute;
+    display: flex;
+    width: 250px;
+    height: 50px;
+    font-size: 16px;
+    margin-top: 20px;
+    background-color: #FFFFFFCC; 
+    backdrop-filter: blur(12px);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    border-radius: 0;
+    z-index: 1015;
+    border-radius: 20px;
+    padding-left: 20px;
+    margin-left: 30px;
+    top: 20px;
+}
+
+#panToMyPlace {
+    position: absolute;
+    display: flex;
+    width: 190px;
+    height: 60px;
+    font-size: 16px;
+    margin-top: 20px;
+    background-color: #FFFFFFCC;
+    backdrop-filter: blur(12px);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    z-index: 1015;
+    border-radius: 20px;
+    /* padding-left: 20px; */
+    top: 70px;
+    left: 30px;
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#panToMyPlace img{
+    margin-left: -10px;
+}
+
+#panToMyPlace p{
+    font-size: 1.1rem;
+}

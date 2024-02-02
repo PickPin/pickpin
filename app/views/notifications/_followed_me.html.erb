@@ -1,0 +1,11 @@
+<div class="notification-like-ele">
+  <%= image_tag(user_icon_url(notification.subject.follower), class: 'notification-user-image') %>
+  <div class="notification-post-inf">
+    <div class="notification-post-content"> 
+    <p><%=  notification.subject.follower.name %>があなたをフォローしました</p>
+    </div>
+    <div class="notification-post-time">
+        <p><%= " #{time_ago_in_words(notification.created_at)}" %></p>
+    </div>
+  </div>
+</div>

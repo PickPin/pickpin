@@ -26,5 +26,12 @@ module Project2024
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # created_atを日本語で表示するため
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local 
+    config.i18n.default_locale = :ja
+    # localeファイルの読み込み設定
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*. {rb,yml}')]
   end
 end

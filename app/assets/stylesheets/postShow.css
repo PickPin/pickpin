@@ -1,33 +1,24 @@
 .popup-view-background {
     display: none;
-    /* 最初は非表示 */
     position: absolute;
-    /* ページに固定 */
     z-index: 1020;
-    /* 他のコンテンツの上に表示 */
-    left: 0;
-    top: 0;
     width: 100%;
-    /* 全幅 */
     height: 100%;
-    /* 全高 */
-    overflow: auto;
-    /* スクロール可能 */
-    background-color: rgb(0, 0, 0);
-    /* 背景色 */
     background-color: rgba(0, 0, 0, 0.4);
-    /* 背景色 (透明度付き) */
+    justify-content: center;
+    text-align: center;
 }
 
 .popup-view-content{
+    margin: 0 auto;
     position: relative;
-    width: 700px;
-    height: 400px;
-    background: #fff;
-    padding: 20px;
+    height: 100vh; 
+    width: 100vw;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
+    flex-flow: column;
+    align-items: center; 
 }
 
 .close-view-popup:hover,
@@ -37,10 +28,61 @@
     cursor: pointer;
 }
 
+
 /* 画像自体のスタイル */
 .popup-view-image {
+    height: 100%;
     width: 100%;
-    /* コンテンツ幅いっぱい */
-    height: auto;
-    /* 高さは自動 */
+    object-fit: contain;
+    object-position: center center; 
+}
+
+.popup-view-review-content {
+  position: absolute;
+  z-index: 1020;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  bottom: 10vh;
+  width: 700px;
+  height: 60px;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.popup-view-like {
+    height: 60px;
+    width: 60px;
+}
+
+.goodButtonImage{
+    height: 60px;
+    width: 60px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    border-radius: 50%;
+    display: flex;
+}
+
+.goodButtonImage a{
+    height: 100%;
+    width: 100%;
+}
+
+.goodButtonImage:hover {
+    transform: scale(1.1,1.1);
+    cursor: pointer; 
+}
+
+.popup-view-comment {
+    width: 700px;
+    height: 60px;
+    display: flex;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.popup-view-comment  p{
+    font-size: 1.4rem;
+    color: #fff;
 }
