@@ -116,7 +116,7 @@
 }
 
 .comment-input{
-    height: 280px;
+    height: 105px;
 }
 
 .field input[type="text"],
@@ -134,4 +134,37 @@
 
 .field input[type="text"] {
     height: 100%;
+}
+
+.post-user-icon {
+    height: 100%;
+    width: 100%;
+}
+
+.range-input {
+    display: flex;
+}
+
+.range-input label {
+    margin-bottom: 15px;
+    margin-right: 2px;
+}
+
+.range-input label input{
+    display: none; 
+}
+
+.range-input label span {
+    color: #4b4b4bbf;
+    font-size: 14px; 
+    border: 1px solid #4b4b4bbf;
+    border-radius: 20px; 
+    padding: 5px 20px; 
+    height:100%;
+}
+
+label input:checked + span {
+    color: #FFF; 
+    background: #e59148; 
+    border: 1px solid #e59148; 
 }

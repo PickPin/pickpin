@@ -1,0 +1,13 @@
+<turbo-frame id="notification-turbo">
+<% if @notifications.present? %>
+  <%= link_to "全削除",notifications_path(), data: { turbo_method: :delete },class:"all-notifications-delete" %>
+  <div id="notification-top-line"></div>
+  <div class="notification-ele">
+    <% @notifications.each do |notification| %>
+        <%= render "#{notification.action_type}", notification: notification %>
+    <% end %>
+  </div>
+<% else %>
+  通知はありません
+<% end %>
+</turbo-frame>

@@ -242,7 +242,7 @@ function initMap(position) {
     });
 
     postTrigerMarker.addListener('click', function () {
-      showViewPopup(image.url)
+      showViewPopup(image)
     });
   });
 
@@ -270,6 +270,86 @@ function initMap(position) {
       lastMarker.setMap(null);
     }
     createLabelMarker(e.latLng, "", "add_post", false, add_post_icon, 1, 80, 80, false);
+  });
+
+
+  const input = document.getElementById("pac-input");
+  const searchBox = new google.maps.places.SearchBox(input);
+ ////"SearchBoxクラス"はPlacesライブラリのメソッド。引数はinput(ドキュメント上ではinputFieldとある)。
+ ////[https://developers.google.com/maps/documentation/javascript/reference/places-widget#SearchBox]
+
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  let markers = [];
+  searchBox.addListener("places_changed", () => {
+  ////"place_chaged"イベントはAutoCompleteクラスのイベント.
+  ////https://developers.google.com/maps/documentation/javascript/reference/places-widget#Autocomplete.place_changed
+
+    const places = searchBox.getPlaces();
+    ////"getPlaces"メソッドはクエリ(検索キーワード)を配列(PlaceResult)で返す。
+    ////https://developers.google.com/maps/documentation/javascript/reference/places-widget#Autocomplete.place_changed
+
+    if (places.length == 0) {
+      return;
+    }
+    // Clear out the old markers.
+    markers.forEach((marker) => {
+      //"forEach"メソッドは引数にある関数へ、Mapオブジェクトのキー/値を順に代入･関数の実行をする。
+        //Mapオブジェクト:
+          //https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Map
+      marker.setMap(null);
+      ////setMapメソッドはMarker(Polyline,Circleなど)クラスのメソッド。Markerを指定した位置に配置する。引数nullにすると地図から取り除く。
+    });
+    markers = [];
+    // For each place, get the icon, name and location.
+    const bounds = new google.maps.LatLngBounds();
+    ////"LatLngBounds"クラスは境界を作るインスンタンスを作成。引数は左下、右上の座標。
+    ////https://lab.syncer.jp/Web/API/Google_Maps/JavaScript/LatLngBounds/#:~:text=LatLngBounds%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%AF%E5%A2%83%E7%95%8C(Bounding,%E4%BD%9C%E3%82%8B%E3%81%93%E3%81%A8%E3%82%82%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%99%E3%80%82
+    places.forEach((place) => {
+      if (!place.geometry) {
+        ////"geometry"はplaceライブラリのメソッド。
+
+        console.log("Returned place contains no geometry");
+        return;
+      }
+      const icon = {
+        url: place.icon,
+        ////"icon"はアイコンを表すオブジェクト。マーカーをオリジナル画像にしたいときなど。
+        ////https://lab.syncer.jp/Web/API/Google_Maps/JavaScript/Icon/
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        ////"Point"クラスはマーカーのラベルなどの位置を決めるインスタンスメソッド。
+        ////https://lab.syncer.jp/Web/API/Google_Maps/JavaScript/Point/
+
+        scaledSize: new google.maps.Size(25, 25),
+      };
+      // Create a marker for each place.
+      markers.push(
+        new google.maps.Marker({
+          map,
+          icon,
+          title: place.name,
+          position: place.geometry.location,
+        })
+      );
+
+      if (place.geometry.viewport) {
+        ////viewport"メソッド
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+        ////"union"メソッドはLatLngBoundsクラスのメソッド。自身の境界に指定した境界を取り込んで合成する。
+        ////https://lab.syncer.jp/Web/API/Google_Maps/JavaScript/LatLngBounds/union/
+      } else {
+        bounds.extend(place.geometry.location);
+        ////"extend"メソッドはLatLngBoundsクラスのメソッド。自身の境界に新しく位置座標を追加する。
+        ////https://lab.syncer.jp/Web/API/Google_Maps/JavaScript/LatLngBounds/extend/
+      }
+    });
+    map.fitBounds(bounds);
+    ////"fitBounds"メソッドはmapクラスのメソッド。指定した境界を見えやすい位置にビューポートを変更する。
+    ////https://lab.syncer.jp/Web/API/Google_Maps/JavaScript/Map/fitBounds/#:~:text=Map.fitBounds()%E3%81%AFMap,%E5%A4%89%E6%9B%B4%E3%81%97%E3%81%A6%E3%81%8F%E3%82%8C%E3%81%BE%E3%81%99%E3%80%82
+
   });
 }
 
@@ -316,186 +396,92 @@ cancelUploadButton.addEventListener('click', (e) => {
   }
 });
 
-function getImageByUserIdAndImageId(groupedImages, userId, userSpecificImageId) {
-  const userImages = groupedImages[userId];
 
-  if (!userImages) {
-    return null;
-  }
+document.addEventListener('DOMContentLoaded', function () {
+  var postIcons = document.querySelectorAll('.postIcon');
+  postIcons.forEach(function (postIcon) {
+    var imageCoords = JSON.parse(postIcon.dataset.imageCoords);
+    postIcon.addEventListener('click', function () {
+      var postCountElement = postIcon.querySelector('.post_count');
+      var currentCount = parseInt(postCountElement.textContent);
 
-  const image = userImages.find(img => img.user_specific_id === userSpecificImageId);
+      if (currentCount > 1) {
+        postCountElement.textContent = currentCount - 1;
+      } else if (currentCount === 1) {
+        postCountElement.style.display = "none";
+      }
 
-  return image || null;
-}
+      var nextCoord = imageCoords.shift();
+      imageCoords.push(nextCoord);
 
-function userViewedImage(imageViewInfo, userId, groupedImages) {
-  const totalImageCount = groupedImages[userId].length;
-
-  imageViewInfo[userId].viewedImagesCount++;
-
-  if (imageViewInfo[userId].viewedImagesCount >= totalImageCount) {
-    imageViewInfo[userId].viewedImagesCount = 0;
-    imageViewInfo[userId].hasViewedAllImages = true;
-  } else {
-    imageViewInfo[userId].hasViewedAllImages = false;
-  }
-
-  return imageViewInfo[userId].viewedImagesCount
-}
-function createUserImageViewInfo(groupedImages) {
-  const imageViewInfo = {};
-
-  Object.keys(groupedImages).forEach(userId => {
-    const imageCount = groupedImages[userId].length;
-
-    imageViewInfo[userId] = {
-      viewedImagesCount: 0,
-      hasViewedAllImages: false,
-    };
-  });
-
-  return imageViewInfo;
-}
-
-
-
-var container = document.getElementById('current-post-container');
-
-if (imagesData.length > 0) {
-  var groupedImages = imagesData.reduce((acc, image) => {
-    if (!acc[image.user_id]) {
-      acc[image.user_id] = [];
-    }
-    acc[image.user_id].push(image);
-    return acc;
-  }, {});
-
-  Object.keys(groupedImages).forEach(userId => {
-    groupedImages[userId].forEach((image, index) => {
-      image.user_specific_id = index + 1; // ユーザー固有のIDを割り振る
+      if (nextCoord) {
+        map.panTo({ lat: nextCoord[0], lng: nextCoord[1] });
+      }
     });
   });
-
-  const imageViewInfo = createUserImageViewInfo(groupedImages);
-
-  var displayedUserIds = new Set();
-  imagesData.forEach(function (image) {
-    if (!displayedUserIds.has(image.user_id)) {
-      displayedUserIds.add(image.user_id);
-      var postCount = imagesData.filter(img => img.user_id === image.user_id).length;
-
-      var postWrapper = document.createElement('div');
-      postWrapper.className = 'post_wrapper';
-
-      var postIcon = document.createElement('div');
-      postIcon.className = 'postIcon';
-      postIcon.innerHTML = '<div class="post_count" >' + postCount + '</div>'
-        + '<img src="' + image.url + '" class="post">';
-
-      if (image.user_id == login_user_id) {
-        var postGreenIcon = document.createElement('div')
-        postGreenIcon.className = 'postGreenButton'
-        postGreenIcon.id = 'postGreenButton'
-        postGreenIcon.innerHTML = '<img src="' + postGreenButton + '" class="postGreeniImage">';
-      }
-
-      var postUsername = document.createElement('p')
-      postUsername.className = 'post_username';
-      postUsername.innerHTML = image.user_name;
-
-
-      container.appendChild(postWrapper);
-      postWrapper.appendChild(postIcon);
-      postWrapper.appendChild(postUsername);
-      if (postGreenIcon) {
-        postWrapper.appendChild(postGreenIcon);
-        var sline = document.createElement('div')
-        sline.className = 'sline';
-        container.appendChild(sline);
-      }
-
-      postIcon.addEventListener('click', function () {
-        var postCountElement = postWrapper.querySelector('.post_count');
-        var currentCount = parseInt(postCountElement.textContent);
-        var view_count = userViewedImage(imageViewInfo, image.user_id, groupedImages);
-        console.log(imageViewInfo)
-        var selected_image = getImageByUserIdAndImageId(groupedImages, image.user_id, view_count + 1);
-        if (selected_image) {
-          map.panTo({ lat: selected_image.latitude, lng: selected_image.longitude });
-        }
-        if (currentCount > 1) {
-          postCountElement.textContent = currentCount - 1;
-        } else if (currentCount == 1) {
-          postCountElement.style.display = "none"
-        }
-      });
-    }
-  });
-
-  if (!displayedUserIds.has(parseInt(login_user_id))) {
-    var postWrapper = document.createElement('div');
-    postWrapper.className = 'post_wrapper';
-
-    var postIcon = document.createElement('div');
-    postIcon.className = 'postIcon';
-    postIcon.innerHTML = '<div class="post_count" style="display: none;"></div>'
-      + '<img src="' + login_user_icon + '" class="post">';
-
-    var postUsername = document.createElement('p')
-    postUsername.className = 'post_username';
-    postUsername.innerHTML = login_user_name;
-
-    var postGreenIcon = document.createElement('div')
-    postGreenIcon.className = 'postGreenButton'
-    postGreenIcon.id = 'postGreenButton'
-    postGreenIcon.innerHTML = '<img src="' + postGreenButton + '" class="postGreeniImage">';
-
-    var sline = document.createElement('div')
-    sline.className = 'sline'
-    container.appendChild(postWrapper);
-    postWrapper.appendChild(postIcon);
-    postWrapper.appendChild(postUsername);
-    container.appendChild(sline);
-    postWrapper.appendChild(postGreenIcon);
-  }
-} else {
-  var postWrapper = document.createElement('div');
-  postWrapper.className = 'post_wrapper';
-
-  var postIcon = document.createElement('div');
-  postIcon.className = 'postIcon';
-  postIcon.innerHTML = '<div class="post_count" style="display: none;"></div>'
-    + '<img src="' + login_user_icon + '" class="post">';
-
-  var postUsername = document.createElement('p')
-  postUsername.className = 'post_username';
-  postUsername.innerHTML = login_user_name;
-
-  var postGreenIcon = document.createElement('div')
-  postGreenIcon.className = 'postGreenButton'
-  postGreenIcon.id = 'postGreenButton'
-  postGreenIcon.innerHTML = '<img src="' + postGreenButton + '" class="postGreeniImage">';
-
-  var sline = document.createElement('div')
-  sline.className = 'sline'
-  container.appendChild(postWrapper);
-  postWrapper.appendChild(postIcon);
-  postWrapper.appendChild(postUsername);
-  container.appendChild(sline);
-  postWrapper.appendChild(postGreenIcon);
-}
+});
 
 
 const popupViewBackground = document.getElementById('popup-view-background');
+const popupViewContent = document.getElementById('popup-view-content');
 const popupViewImage = document.getElementById('popup-view-image');
 const closeViewPopup = document.getElementById('close-view-popup');
 const closePopupForm = document.getElementById('close-btn');
 const addPostHereButton = document.getElementById('postGreenButton');
+const popupViewLike = document.getElementById('popup-view-like')
+const popupViewComment = document.getElementById('popup-view-comment-p')
+
 
 // 画像を表示する関数
-function showViewPopup(imageSrc) {
-  popupViewImage.src = imageSrc; // 画像ソースを設定
-  popupViewBackground.style.display = 'block'; // ポップアップを表示
+function showViewPopup(image) {
+  popupViewImage.src = image.image_url; // 画像ソースを設定
+  popupViewBackground.style.display = 'flex'; // ポップアップを表示
+  createLikeButtonFunc(image)
+}
+
+function createLikeButtonFunc(image) {
+  if (popupViewLike.firstChild) {
+    popupViewLike.removeChild(popupViewLike.firstChild);
+  }
+  if (image.user_id != login_user_id){
+    if (image.like_users.some(user => user.id === parseInt(login_user_id))) {
+      var turboFrameLikeButton = document.createElement('turbo-frame');
+      turboFrameLikeButton.id = 'turboLikeButton';
+  
+      var link = document.createElement('a');
+      link.href = '/likes/' + image.id;
+      link.className = 'goodButtonImage';
+      link.dataset.turboMethod = 'delete';
+  
+      var img = document.createElement('img');
+      img.src = goodCancelButton;
+  
+      link.appendChild(img);
+      turboFrameLikeButton.appendChild(link);
+  
+      popupViewLike.appendChild(turboFrameLikeButton)
+      popupViewComment.innerHTML = image.comment
+    } else {
+  
+      var turboFrameLikeButton = document.createElement('turbo-frame');
+      turboFrameLikeButton.id = 'turboLikeButton';
+  
+      var link = document.createElement('a');
+      link.href = '/likes/' + image.id;
+      link.className = 'goodButtonImage';
+      link.dataset.turboMethod = 'post';
+  
+      var img = document.createElement('img');
+      img.src = goodButton;
+  
+      link.appendChild(img);
+      turboFrameLikeButton.appendChild(link);
+  
+      popupViewLike.appendChild(turboFrameLikeButton)
+      popupViewComment.innerHTML = image.comment
+  
+    }
+  }
 }
 
 // 画像を閉じる関数
@@ -509,8 +495,8 @@ function closePopupFormFunc() {
 }
 
 // クリックイベントリスナーを追加 
-closeViewPopup.onclick = closeViewPopupFunc;
-popupViewBackground.onclick = closeViewPopupFunc;
+// closeViewPopup.onclick = closeViewPopupFunc;
+popupViewContent.onclick = closeViewPopupFunc;
 closePopupForm.onclick = closePopupFormFunc;
 
 addPostHereButton.addEventListener('click', function () {
@@ -524,3 +510,16 @@ addPostHereButton.addEventListener('click', function () {
     console.error('popupForm not found');
   }
 });
+
+const panToMyPlaceIcon = document.getElementById('panToMyPlace');
+
+panToMyPlaceIcon.addEventListener('click', function () {
+  getCurrentLocation().then(coords => {
+    map.panTo({ lat: coords.lat, lng: coords.lng });
+
+  });
+});
+
+window.panToByImage = function (latlng) {
+  map.panTo(latlng);
+}

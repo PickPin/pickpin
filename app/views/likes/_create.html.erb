@@ -1,0 +1,5 @@
+<turbo-frame id="turboLikeButton">
+    <%= link_to "/likes/#{image_id}", class: 'goodButtonImage', data: { turbo_method: :delete } do %>
+        <%= image_tag(asset_path('goodCancelButton.png')) %>
+    <% end %>
+</turbo-frame>

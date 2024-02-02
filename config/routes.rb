@@ -12,5 +12,11 @@ Rails.application.routes.draw do
   	get "followers" => "relationships#followers", as: "followers"
   end
 
+  post 'likes/:image_id', to: 'likes#create'
+  delete 'likes/:image_id', to: 'likes#destroy'
+  resources :notifications, only: [:index]
+  
+  delete 'notifications', to: 'notifications#destroy'
+
   get 'debug', to: 'debug#show'
 end
