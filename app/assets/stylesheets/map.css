@@ -78,10 +78,9 @@ h3 {
     cursor: pointer; 
 }
 
-.profileIcon-wrapper {
-    justify-content: center;
-}
 .profileIcon {
+    justify-content: center;
+    padding-bottom: -50px;
     transition-duration: 0.5s;
     height: 180px;
     width: 360px;
@@ -154,31 +153,6 @@ h3 {
     width: 140px;
     height: 140px;
     transition-duration: 0.5s;
-}
-
-.profileGreenButton {
-    height: 60px;
-    width: 60px;
-    top: 150px;
-    right: 120px;
-    position: absolute;
-    background-color: #000;
-    border-radius: 50%;
-}
-
-.profileGreenButton img{
-    height: 100%;
-    width: 100%;
-}
-
-.profileGreenButton:hover{
-    transform: scale(1.1,1.1);
-    cursor: pointer;
-}
-
-.profileGreeniImage {
-    width: 60px;
-    height: 60px;
 }
 
 .sline {
