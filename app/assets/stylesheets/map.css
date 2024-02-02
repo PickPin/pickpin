@@ -65,7 +65,7 @@ h3 {
 }
 
 .post_wrapper {
-    display: flex;    
+    display: flex;
     flex-flow: column;
 }
 
@@ -74,6 +74,21 @@ h3 {
 }
 
 .postIcon:hover {
+    transform: scale(1.1,1.1);
+    cursor: pointer; 
+}
+
+.profileIcon-wrapper {
+    justify-content: center;
+}
+.profileIcon {
+    transition-duration: 0.5s;
+    height: 180px;
+    width: 360px;
+    margin-top: 50px;
+}
+
+.profileIcon:hover {
     transform: scale(1.1,1.1);
     cursor: pointer; 
 }
@@ -133,6 +148,39 @@ h3 {
     cursor: pointer; 
 }
 
+.profileIcon-img {
+    /* background: #fff; */
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    transition-duration: 0.5s;
+}
+
+.profileGreenButton {
+    height: 60px;
+    width: 60px;
+    top: 150px;
+    right: 120px;
+    position: absolute;
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.profileGreenButton img{
+    height: 100%;
+    width: 100%;
+}
+
+.profileGreenButton:hover{
+    transform: scale(1.1,1.1);
+    cursor: pointer;
+}
+
+.profileGreeniImage {
+    width: 60px;
+    height: 60px;
+}
+
 .sline {
     width: 1px;
     background-color: #c2c2c2;
@@ -141,25 +189,21 @@ h3 {
 
 #logo {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 300px;
-    height: 100px;
-    background-color: rgba(229, 109, 7, 0.92); /* 半透明の背景 */
+    top: 10px;
+    left: 10px;
+    width: 180px;
+    height: 180px;
+    background-color: #ffffff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* 影を追加 */
-    padding: 10px 0;
-    border-radius: 30px;
+    border-radius: 50%;
     z-index: 1010;
 }
 
-#logo p {
-    font-family: 'Dancing Script', cursive;
-    width: 100%;
-    font-size: 370%;
-    margin: 10%;
-    line-height: 15%;
+#logo-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
 }
-
 #menuButton {
     position: absolute;
     top: 0;
@@ -285,9 +329,9 @@ h3 {
     width: 360px;
 }
 
-.profile-img-wrapper {
+.profile-top-wrapper {
     width: 360px;
-    height: 320px;
+    height: 280px;
     text-align: center;
 }
 
@@ -313,7 +357,7 @@ h3 {
 }
 
 .profile-edit {
-    height: 50px;
+    height: 40px;
     padding: auto;
 }
 

@@ -1,11 +1,11 @@
-<%= stylesheet_link_tag 'map', :media => 'all' %>
+<%= stylesheet_link_tag 'map', :media => 'all' %> <%# media => "all" は全てのデバイス、"handheld"は携帯電話など、"aural"は音声合成装置など  %>
 <%= stylesheet_link_tag 'postForm', :media => 'all' %>
 <%= stylesheet_link_tag 'post_image', :media => 'all' %>
 <%= stylesheet_link_tag 'postShow', :media => 'all' %>
 <%= stylesheet_link_tag 'menuButton', :media => 'all' %>
 <%= stylesheet_link_tag 'sidebar', :media => 'all' %>
 
-<% content_for :js do %>
+<% content_for :js do %><%# application内のyieldの:jsのつくところの中身となる。~doは複数行を読み込む %>
   <%= javascript_import_module_tag "map" %>
   <%= javascript_import_module_tag "sidebar" %>
   <%= javascript_import_module_tag  "userSearch" %>
@@ -41,7 +41,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
 <div id="popupForm" class="popup-overlay">
   <div class="popup-content">
     <button type="button" id="close-btn" class="close-btn">&#10005;</button> <!-- Cross Mark -->
-    <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %>
+    <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %><%# modelは利用するモデル名、localはHTTPメソッド(true)かAjaxか、html:はそのidとmethodをブロックに指定する %>
       <div class="image-upload">
       <%= form.file_field :post_image, accept: 'image/*',id: 'post_image', required: true %>
       <label for="post_image" class="image-upload-prompt">
@@ -59,12 +59,12 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
           <%= form.text_field :comment %>
         </div>
       </div>
-      <% if user_signed_in? %>
-        <%= form.hidden_field :user_id, value: current_user.id %>
+      <% if user_signed_in? %><%# ユーザーがログインしているならそのidをそうでないなら0を写真のidとして登録 %>
+        <%= form.hidden_field :user_id, value: current_user.id %><%# hidden_fieldは入力フィールドをユーザーに見えない状態で作成。ただし開発者ツールで確認できるので注視 %>
       <% else %>
         <%= form.hidden_field :user_id, value: 0 %>
       <% end %>
-      <%= form.hidden_field :latitude, value: 0, id: 'latitude-field' %>
+      <%= form.hidden_field :latitude, value: 0, id: 'latitude-field' %> <%# id:はhidden_filedのid %>
       <%= form.hidden_field :longitude, value: 0, id: 'longitude-field' %>
       <%= form.submit "投稿", id: "submitForm", class: "submit-btn" %>
     <% end %>
@@ -106,8 +106,11 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
   <div class="myProfileSideBar  sidebar" id="myProfileSideBar" >
   <button class="closeSideBar" id="closeMyProfileSidebar">×</button>
     <div class="profile-wapper">
-        <div class="profile-img-wrapper">
-          <div><img src="/app/assets/images/userIcon.png" alt="顔" class="profile-img"></div>
+        <div class="profile-top-wrapper">
+          <div class="profileIcon-wrapper">
+            <div class="profileIcon sweezy-custom-cursor-hover"><img src="<%= asset_path('userIcon.png') %>" class="profileIcon-img sweezy-custom-cursor-hover"></div>
+            <div class="profileGreenButton"><img src="<%= asset_path('postGreenButton.png') %>"  class="profileGreeniImage sweezy-custom-cursor-hover"></div>
+          </div>
           <div class="profile-edit"><%= link_to "Edit profile", root_path, class:"btn btn--orange" %></div>
           <div class="profile-name"><%= @user.name %></div>
         </div>
@@ -128,6 +131,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
       <img src="#",alt="過去ポスト8" class="ex-post">
       <img src="#",alt="過去ポスト9" class="ex-post">
     </div>
+
   </div>
 
 
@@ -137,7 +141,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
     <button class="closeSideBar" id="closeUserSearchSidebar">×</button>
 
 
-    <%= search_form_for @search, url: users_search_path, html: { data: { turbo_frame: "user-search-turbo"}} do |f| %>
+    <%= search_form_for @search, url: users_search_path, html: { data: { turbo_frame: "user-search-turbo"}} do |f| %> <%# turbo_frameを利用 %>
 
       <%= f.search_field :name_cont , placeholder: "ユーザー名"%>
     
@@ -153,7 +157,8 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
 
   </div>
 
-<%#
+
+<% if false %>
   <div id="menuPanel">
     <div class="profile-wrapper">
         <div class="profile-img-wrapper">
@@ -180,6 +185,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
     </div>
     <button type="button" id="closeButton" class="close-btn">&#10005;</button>
   </div>
+<% end %>
 
   <div id="noticePanel" class="menu-hidden">
     <div class="noticeHeader">お知らせ</div>
@@ -201,9 +207,6 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
     <button type="button" id="search-closeButton" class="close-btn">&#10005;</button>
   </div>
 
-  <div id="logo">
-    <p>My</p>
-    <p>landscape</p>
-  </div>
+  <div id="logo"><img src="<%= asset_path('logo1.png') %>" id="logo-img"></div>
 
 </div>
