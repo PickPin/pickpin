@@ -385,9 +385,17 @@ h3 {
     font-size: 20px;
     padding: 10px 0 auto;
 }
+
+.follow-number {
+    text-decoration-line: none;
+    color: #000;
+    font-size: 30px;
+}
 .self-intro {
     width: 20vw;
     height: 100px;
+    padding-left: 15px;
+    text-align: left;
     border-bottom: 2px solid #eb6100;
 }
 

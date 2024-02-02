@@ -188,15 +188,17 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
         </div>
       <div class="follow-wrapper">
         <div class="follow-count">
-          following<br>
+          <label for="followings">following</label>
+          <br>
           <%= render partial: "relationships/followed-info", locals: { user: @user } %>
         </div>
         <div class="follow-count">
-          folowed<br>
+          <label for="followers">followed</label>
+          <br>
           <%= render partial: "relationships/following-info", locals: { user: @user } %>
         </div>
       </div>
-      <div class="self-intro">自己紹介のスペースです。</div>
+      <div class="self-intro">-tkb大学情報学群情報科学類1年</div>
     </div>
 
     <div class="ex-post-container">
