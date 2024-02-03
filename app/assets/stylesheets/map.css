@@ -450,3 +450,7 @@ h3 {
 #panToMyPlace p{
     font-size: 1.1rem;
 }
+
+.post_elt img {
+    border-radius: 50%;
+}

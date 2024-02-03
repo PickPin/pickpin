@@ -7,6 +7,8 @@
   </div> 
   <%= form_for(resource, as: resource_name, id: 'signinForm', class: 'signin-form',  url: registration_path(resource_name)) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= f.file_field :icon, accept: 'image/*',id: 'test', required: true %>
       
       <div class="field">
         <%= f.label :email %><br />
