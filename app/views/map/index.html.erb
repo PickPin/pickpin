@@ -65,9 +65,9 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
 
         <%= form.label :range, '公開範囲' %> 
         <div class="range-input">
-          <label><%= form.radio_button :public_range, :all %><span>全て</span></label>
-          <label><%= form.radio_button :public_range, :follow %><span>フォロワー</span></label>
-          <label><%= form.radio_button :public_range, :friend %><span>友人</span></label>
+          <label><%= form.radio_button :public_range, :1 %><span>全て</span></label>
+          <label><%= form.radio_button :public_range, :2 %><span>フォロワー</span></label>
+          <label><%= form.radio_button :public_range, :3 %><span>友人</span></label>
         </div>
 
         <%= form.label :tag, '投稿タグ' %> 
