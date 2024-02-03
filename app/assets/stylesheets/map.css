@@ -396,7 +396,8 @@ h3 {
     height: 100px;
     padding-left: 15px;
     text-align: left;
-    border-bottom: 2px solid #eb6100;
+    font-size: 20px;
+    border-bottom: 2px solid #000;
 }
 
 .ex-post-container {
@@ -407,11 +408,13 @@ h3 {
     align-content: flex-start;
 }
 
-.ex-post {
-    height:120px;
-    width: calc(100%/3);
+.myImageStyle {
+    height: 6.55vw;
+    width: 6.55vw;
+    border-bottom: 0.01vw  solid #000;
+    border-right: 0.01vw  solid #000;
+    border-left: 0.01vw  solid #000;
 }
-
 
 #pac-input {
     position: absolute;

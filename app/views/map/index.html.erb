@@ -42,6 +42,29 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
   }
 }.to_json.html_safe %>; 
 
+document.addEventListener('DOMContentLoaded', function() {
+  // ログインユーザーのID
+  var loginUserId = "<%= @user_id %>";
+
+  // imagesDataからログインユーザーの画像のみをフィルタリング
+  var myImages = imagesData.filter(function(image) {
+    return image.user_id.toString() === loginUserId;
+  });
+
+  // フィルタリングした画像をHTMLに追加
+  var container = document.querySelector('.myImagesContainer');
+  myImages.forEach(function(image) {
+    // img要素を作成
+    var imgElement = document.createElement('img');
+    imgElement.src = image.image_url; // 画像のURL
+    imgElement.alt = 'User Image'; // 代替テキスト
+    imgElement.className = 'myImageStyle'; // CSSクラスを適用
+
+    // 画像要素をコンテナに追加
+    container.appendChild(imgElement);
+  });
+});
+
 </script>
 
 <div id="popupForm" class="popup-overlay">
@@ -190,17 +213,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
       <div class="self-intro">-tkb大学情報学群情報科学類1年</div>
     </div>
 
-    <div class="ex-post-container">
-      <div class="ex-post"><img src="#"></div>
-      <div class="ex-post"><img src="#"></div>
-      <div class="ex-post"><img src="#"></div>
-      <div class="ex-post"><img src="#"></div>
-      <div class="ex-post"><img src="#"></div>
-      <div class="ex-post"><img src="#"></div>
-      <div class="ex-post"><img src="#"></div>
-      <div class="ex-post"><img src="#"></div>
-      <div class="ex-post"><img src="#"></div>
-    </div>
+    <div class="ex-post-container myImagesContainer"></div>
 
   </div>
 
@@ -238,3 +251,4 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
   </turbo-frame>
 
 </div>
+
