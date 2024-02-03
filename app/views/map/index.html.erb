@@ -1,11 +1,11 @@
-<%= stylesheet_link_tag 'map', :media => 'all' %> <%# media => "all" は全てのデバイス、"handheld"は携帯電話など、"aural"は音声合成装置など  %>
+<%= stylesheet_link_tag 'map', :media => 'all' %>
 <%= stylesheet_link_tag 'postForm', :media => 'all' %>
 <%= stylesheet_link_tag 'post_image', :media => 'all' %>
 <%= stylesheet_link_tag 'postShow', :media => 'all' %>
 <%= stylesheet_link_tag 'menuButton', :media => 'all' %>
 <%= stylesheet_link_tag 'sidebar', :media => 'all' %>
 
-<% content_for :js do %><%# application内のyieldの:jsのつくところの中身となる。~doは複数行を読み込む %>
+<% content_for :js do %>
   <%= javascript_import_module_tag "map" %>
   <%= javascript_import_module_tag "sidebar" %>
   <%= javascript_import_module_tag  "userSearch" %>
@@ -47,7 +47,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
 <div id="popupForm" class="popup-overlay">
   <div class="popup-content">
     <button type="button" id="close-btn" class="close-btn">&#10005;</button> <!-- Cross Mark -->
-    <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %><%# modelは利用するモデル名、localはHTTPメソッド(true)かAjaxか、html:はそのidとmethodをブロックに指定する %>
+    <%= form_with(model: @image, url: images_path, local: true, html: { id: "imageForm", method: "post" }) do |form| %>
       <div class="image-upload">
       <%= form.file_field :post_image, accept: 'image/*',id: 'post_image', required: true %>
       <label for="post_image" class="image-upload-prompt">
@@ -63,29 +63,29 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
           </div>
         </div>
 
-        <%= form.label :range, '公開範囲' %> 
+        <%= form.label :range, '公開範囲' %>
         <div class="range-input">
           <label><%= form.radio_button :public_range, :all %><span>全て</span></label>
           <label><%= form.radio_button :public_range, :follow %><span>フォロワー</span></label>
           <label><%= form.radio_button :public_range, :friend %><span>友人</span></label>
         </div>
 
-        <%= form.label :tag, '投稿タグ' %> 
+        <%= form.label :tag, '投稿タグ' %>
         <div class="tag-input">
           <%= form.text_field :tag %>
         </div>
 
-        <%= form.label :comment, 'コメント' %> 
+        <%= form.label :comment, 'コメント' %>
         <div class="comment-input">
           <%= form.text_field :comment %>
         </div>
       </div>
-      <% if user_signed_in? %><%# ユーザーがログインしているならそのidをそうでないなら0を写真のidとして登録 %>
-        <%= form.hidden_field :user_id, value: current_user.id %><%# hidden_fieldは入力フィールドをユーザーに見えない状態で作成。ただし開発者ツールで確認できるので注視 %>
+      <% if user_signed_in? %>
+        <%= form.hidden_field :user_id, value: current_user.id %>
       <% else %>
         <%= form.hidden_field :user_id, value: 0 %>
       <% end %>
-      <%= form.hidden_field :latitude, value: 0, id: 'latitude-field' %> <%# id:はhidden_filedのid %>
+      <%= form.hidden_field :latitude, value: 0, id: 'latitude-field' %>
       <%= form.hidden_field :longitude, value: 0, id: 'longitude-field' %>
       <%= form.submit "投稿", id: "submitForm", class: "submit-btn" %>
     <% end %>
