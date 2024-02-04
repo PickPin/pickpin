@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="closeSideBar" id="closeMyProfileSidebar">×</button>
     <div class="profile-wapper">
         <div class="profile-top-wrapper">
-          <div class="profileIcon sweezy-custom-cursor-hover"><img src="<%= asset_path('userIcon.png') %>" class="profileIcon-img sweezy-custom-cursor-hover"></div>
+          <div class="profileIcon sweezy-custom-cursor-hover"><%= image_tag(user_icon_url(@user), class: 'profileIcon-img') %></div>
           <div class="profile-edit"><%= link_to "Edit profile", root_path, class:"btn btn--orange" %></div>
           <div class="profile-name"><%= @user.name %></div>
         </div>
