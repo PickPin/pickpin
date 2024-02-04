@@ -4,4 +4,8 @@ class UsersController < ApplicationController
         @users = @search.result(distinct: true)
         render partial: 'search'
     end
+
+    def user_params_update
+        params.require(:user).permit(:name, :email, :image, :introduction) # introdution追加
+    end
 end

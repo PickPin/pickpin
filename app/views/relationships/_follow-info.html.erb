@@ -1,12 +1,12 @@
 <div class="follow-wrapper">
     <div class="follow-count">
         <%= link_to user_followings_path(user) do %>
-            <p class="follow-number">following</p><span class="follow-number"><%= user.followings.count %></span>
+            <p class="follow-number">フォロー</p><span class="follow-number"><%= user.followings.count %></span>
         <% end %>
     </div>
     <div class="follow-count">
         <%= link_to user_followings_path(user) do %>
-            <p class="follow-number">followed</p><span class="follow-number"><%= user.followers.count %></span>
+            <p class="follow-number">フォロワー</p><span class="follow-number"><%= user.followers.count %></span>
         <% end %>
     </div>
 </div>

@@ -81,9 +81,9 @@ h3 {
 .profileIcon {
     justify-content: center;
     transition-duration: 0.5s;
-    height: 150px;
+    height: 5vw;
     width: 20vw;
-    margin-top: 50px;
+    margin-top: 2vw;
 }
 
 .profileIcon:hover {
@@ -149,8 +149,8 @@ h3 {
 .profileIcon-img {
     /* background: #fff; */
     border-radius: 50%;
-    width: 140px;
-    height: 140px;
+    width: 5vw;
+    height: 5vw;
     transition-duration: 0.5s;
 }
 
@@ -306,7 +306,7 @@ h3 {
 
 .profile-top-wrapper {
     width: 20vw;
-    height: 250px;
+    height: 9vw;
     text-align: center;
 }
 
@@ -325,14 +325,14 @@ h3 {
 
 .profile-name {
     margin: 0 auto;
-    height: 70px;
-    font-size: 30px;
+    height: 3vw;
+    font-size: 50px;
     line-height: 80px;
     color: black;
 }
 
 .profile-edit {
-    height: 40px;
+    height: 3vw;
     padding: auto;
 }
 
@@ -370,6 +370,7 @@ h3 {
 .follow-wrapper {
     width: 20vw;
     height: 80px;
+    margin: 2vw auto;
     display: flex;
     justify-content: space-around;
     border: black;
