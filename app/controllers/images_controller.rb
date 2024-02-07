@@ -30,7 +30,6 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:image_id])
     @image.destroy
     # turboのせいでリダイレクトが機能しない空クライアント側でリダイレクトを強制。解決法教えて
-
     redirect_to root_path
   end
   
