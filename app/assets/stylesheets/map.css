@@ -420,7 +420,6 @@ h3 {
     border-radius: 20px;
     padding-left: 20px;
     margin-left: 30px;
-    top: 20px;
 }
 
 #panToMyPlace {
@@ -453,4 +452,28 @@ h3 {
 
 .post_elt img {
     border-radius: 50%;
+}
+
+.genre_input {
+    position: absolute;
+    display: flex;
+    width: 170px;
+    height: 50px;
+    font-size: 16px;
+    background-color: #FFFFFFCC; 
+    backdrop-filter: blur(12px);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    border-radius: 0;
+    z-index: 1015;
+    border-radius: 20px;
+    padding-left: 20px;
+    margin-left: 30px;
+    bottom: 210px;
+    right: 25%;
+}
+
+.genre_input input[type="text"]{
+    width: 150px;
+    outline: none;
+    border:none;
 }

@@ -1,20 +1,33 @@
+require 'ostruct'
+
 class MapController < ApplicationController
+
   def index
     @image = Image.new
-    @user_id = user_signed_in? ? current_user.id : 0
     @user_name = user_signed_in? ? current_user.name : "ゲスト"
 
-    @user = User.find(@user_id)
+    # ログインしている場合のみ以下の処理を実行
+    if user_signed_in?
+      @user_id = current_user.id
+      @user = User.find(@user_id)
+      
+      user_ids = @user.followings.pluck(:id) + [@user.id]
 
-    user_ids = @user.followings.pluck(:id) + [@user.id]
-
-    # 上記のユーザーに属する、指定された期間内に作成された画像
-    @images = Image.where(user_id: user_ids)
-                   .where('created_at >= ?', 100.hours.ago)
-                   .order('created_at DESC')
+      @images = Image.where(user_id: user_ids)
+                    .where('created_at >= ?', 100.hours.ago)
+                    .or(
+                      Image.where(visibility_id: 1)
+                      .where('created_at >= ?', 100.hours.ago)
+                    )
+                    .order('created_at DESC')
+    else
+      @user_id  = 0;
+      @user = OpenStruct.new(name: "ゲスト")
+      @images = Image.where(visibility_id: 1)
+                    .where('created_at >= ?', 100.hours.ago)
+                    .order('created_at DESC')
+    end
 
     @search = User.ransack(params[:q])
-
   end
-
 end
