@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="profile-top-wrapper">
         <div class="profileIcon sweezy-custom-cursor-hover"><%= image_tag(user_icon_url(@user), class: 'profileIcon-img') %></div>
         <div class="profile-name"><%= @user.name %></div>
-        <div class="profile-edit"><%= link_to "プロフィールを編集", root_path, class:"btn btn--orange" %></div>
+        <div class="profile-edit"><%= link_to "プロフィールを編集", edit_user_registration_path, class:"btn btn--orange" %></div>
       </div>
       <%= render partial: "relationships/follow-info", locals: { user: @user } %>
       <%= render partial: "users/introduction", locals: { user: @user } %>
