@@ -15,7 +15,7 @@
 <% end %>
 
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA0t45fvMjTCFbM9hixFDGwrJUrkMZNbs&libraries=places&callback=initMap&v=weekly"></script>
+
 <script>
 var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
 var postGreenButton = "<%= asset_path('postGreenButton.png') %>"
@@ -30,7 +30,7 @@ var notificationButtonIcon = "<%= asset_path('NoticeIcon.png') %>"
 var imagesData = <%= (@images || []).each_with_index.map { |image, index|
   user = User.find(image.user_id)
   icon_url = user_icon_url(user)
-  genre_names = image.genres.pluck(:name)
+  genre_names = image.respond_to?(:genres) ? image.genres.pluck(:name) : []
   { 
     id: image.id, 
     url: icon_url,
@@ -94,7 +94,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
       <% end %>
       <%= form.hidden_field :latitude, value: 0, id: 'latitude-field' %> <%# id:はhidden_filedのid %>
       <%= form.hidden_field :longitude, value: 0, id: 'longitude-field' %>
-      <%= form.submit "投稿", id: "submitForm", class: "submit-btn" ,onclick: "redirectToUrl('/');" %>
+      <%= form.submit "投稿", id: "submitForm", class: "submit-btn"%>
     <% end %>
   </div>
 </div>
