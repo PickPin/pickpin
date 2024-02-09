@@ -2,7 +2,7 @@
   <%= image_tag(user_icon_url(notification.subject.user), class: 'notification-user-image') %>
   <div class="notification-post-inf">
     <div class="notification-post-content"> 
-      <p><%= notification.subject.user.name  %>があなたの<a class="notification-post" onclick="panToByImage({lat: <%= notification.subject.image.latitude %>, lng: <%= notification.subject.image.longitude %> })"> 投稿 </a>にいいねしました</p>
+      <p><%= notification.subject.user.name  %>があなたの<a class="notification-post" onclick="panToByImage({lat: <%= notification.subject&.image&.latitude %>, lng: <%= notification.subject&.image&.longitude %> })"> 投稿 </a>にいいねしました</p>
     </div>
     <div class="notification-post-time">
         <p><%= " #{time_ago_in_words(notification.created_at)}" %></p>

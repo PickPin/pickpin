@@ -1,0 +1,38 @@
+=> Booting Puma
+=> Rails 7.1.3 application starting in production 
+=> Run `bin/rails server --help` for more startup options
+Puma starting in single mode...
+* Puma version: 6.4.2 (ruby 3.3.0-p0) ("The Eagle of Durango")
+*  Min threads: 5
+*  Max threads: 5
+*  Environment: production
+*          PID: 21782
+* Listening on unix:///var/www/rails/project2024/tmp/sockets/puma.sock
+Use Ctrl-C to stop
+=> Booting Puma
+=> Rails 7.1.3 application starting in production 
+=> Run `bin/rails server --help` for more startup options
+Puma starting in single mode...
+* Puma version: 6.4.2 (ruby 3.3.0-p0) ("The Eagle of Durango")
+*  Min threads: 5
+*  Max threads: 5
+*  Environment: production
+*          PID: 27517
+* Listening on unix:///var/www/rails/project2024/tmp/sockets/puma.sock
+Use Ctrl-C to stop
+=> Booting Puma
+=> Rails 7.1.3 application starting in production 
+=> Run `bin/rails server --help` for more startup options
+A server is already running (pid: 27517, file: /var/www/rails/project2024/tmp/pids/server.pid).
+Exiting
+=> Booting Puma
+=> Rails 7.1.3 application starting in production 
+=> Run `bin/rails server --help` for more startup options
+Puma starting in single mode...
+* Puma version: 6.4.2 (ruby 3.3.0-p0) ("The Eagle of Durango")
+*  Min threads: 5
+*  Max threads: 5
+*  Environment: production
+*          PID: 27576
+* Listening on unix:///var/www/rails/project2024/tmp/sockets/puma.sock
+Use Ctrl-C to stop

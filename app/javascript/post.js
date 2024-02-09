@@ -1,6 +1,6 @@
 
 // 画像アップロードイベントハンドラ
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('turbo:load', function () {
     const postForm = document.getElementById('imageForm');
     if (!postForm) return;
   

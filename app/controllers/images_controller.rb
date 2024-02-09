@@ -12,7 +12,7 @@ class ImagesController < ApplicationController
       tag = params[:image][:tag]
       genre_names = extract_genre_names(tag)
       genres = find_or_create_genres_by_names(genre_names)
-      @image.genres = genres
+      @image.genres = genres unless genres.empty? 
       if @image.save
         # 保存に成功した場合の処理
         redirect_to root_path

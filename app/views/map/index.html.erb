@@ -15,7 +15,7 @@
 <% end %>
 
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA0t45fvMjTCFbM9hixFDGwrJUrkMZNbs&libraries=places&callback=initMap&v=weekly"></script>
+
 <script>
 var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
 var postGreenButton = "<%= asset_path('postGreenButton.png') %>"
@@ -30,7 +30,7 @@ var notificationButtonIcon = "<%= asset_path('NoticeIcon.png') %>"
 var imagesData = <%= (@images || []).each_with_index.map { |image, index|
   user = User.find(image.user_id)
   icon_url = user_icon_url(user)
-  genre_names = image.genres.pluck(:name)
+  genre_names = image.respond_to?(:genres) ? image.genres.pluck(:name) : []
   { 
     id: image.id, 
     url: icon_url,
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <% end %>
       <%= form.hidden_field :latitude, value: 0, id: 'latitude-field' %>
       <%= form.hidden_field :longitude, value: 0, id: 'longitude-field' %>
-      <%= form.submit "投稿", id: "submitForm", class: "submit-btn" ,onclick: "redirectToUrl('/');" %>
+      <%= form.submit "投稿", id: "submitForm", class: "submit-btn"%>
     <% end %>
   </div>
 </div>
@@ -227,10 +227,20 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="myProfileSideBar  sidebar" id="myProfileSideBar" >
   <button class="closeSideBar" id="closeMyProfileSidebar">×</button>
     <div class="profile-wapper">
-      <div class="profile-top-wrapper">
-        <div class="profileIcon sweezy-custom-cursor-hover"><%= image_tag(user_icon_url(@user), class: 'profileIcon-img') %></div>
-        <div class="profile-name"><%= @user.name %></div>
-        <div class="profile-edit"><%= link_to "プロフィールを編集", edit_user_registration_path, class:"btn btn--orange" %></div>
+        <div class="profile-top-wrapper">
+          <div class="profileIcon sweezy-custom-cursor-hover"><img src="<%= asset_path('userIcon.png') %>" class="profileIcon-img sweezy-custom-cursor-hover"></div>
+          <div class="profile-edit"><%= link_to "Edit profile", edit_user_registration_path, class:"btn btn--orange" %></div>
+          <div class="profile-name"><%= @user.name %></div>
+        </div>
+      <div class="follow-wrapper">
+        <div class="follow-count">
+          following<br>
+          <%= render partial: "relationships/followed-info", locals: { user: @user } %>
+        </div>
+        <div class="follow-count">
+          folowed<br>
+          <%= render partial: "relationships/following-info", locals: { user: @user } %>
+        </div>
       </div>
       <%= render partial: "relationships/follow-info", locals: { user: @user } %>
       <%= render partial: "users/introduction", locals: { user: @user } %>
@@ -276,4 +286,3 @@ document.addEventListener('DOMContentLoaded', function() {
   <% end %>
 
 </div>
-
