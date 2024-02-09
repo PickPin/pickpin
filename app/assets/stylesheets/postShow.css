@@ -44,11 +44,14 @@
   flex-direction: row;
   justify-content: center;
   text-align: center;
-  bottom: 10vh;
+  bottom: 0;
+  right: 0;
   width: 700px;
   height: 60px;
   padding: 10px;
   border-radius: 20px;
+  background-color: #FFFFFFCC; 
+  backdrop-filter: blur(12px);
 }
 
 .popup-view-like {

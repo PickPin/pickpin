@@ -77,10 +77,12 @@ function createLabelMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZIndex,
   lastMarker = createImageMarker(latlng, imgsrc, sTitle, nImgWidth, nImgHeight, "post_marker", isAnim);
 
   lastMarker.addListener('click', function () {
-    if (popupForm) {
+    if (popupForm ){
       popupForm.style.display = 'flex';
-      document.getElementById('latitude-field').value = latlng.lat();
-      document.getElementById('longitude-field').value = latlng.lng();
+      if (user_signed_in){
+        document.getElementById('latitude-field').value = latlng.lat();
+        document.getElementById('longitude-field').value = latlng.lng();
+      }
     } else {
       console.error('popupForm not found');
     }
@@ -92,10 +94,11 @@ function createPostTrigerMarker(latlng, sTitle, sCssClass, bVisible, imgsrc, nZI
 }
 
 class ImageOverlay extends google.maps.OverlayView {
-  constructor(bounds, imageSrc, map, width, height, className, showLabel, labelContent) {
+  constructor(bounds, imageSrc, map, width, height, className, showLabel, labelContent ,genres ,markerTriger) {
     super();
     this.bounds_ = bounds;
     this.imageSrc_ = imageSrc;
+    this.genres = genres;
     this.map_ = map;
     this.width_ = width;
     this.height_ = height;
@@ -104,6 +107,7 @@ class ImageOverlay extends google.maps.OverlayView {
     this.labelContent_ = labelContent;
     this.div_ = null;
     this.bVisible = true;
+    this.markerTriger = markerTriger;
 
     this.setMap(map);
   }
@@ -161,6 +165,16 @@ class ImageOverlay extends google.maps.OverlayView {
     }
   }
 
+  hideOverlay() {
+    this.div_.style.display= "none";
+    this.markerTriger.setMap(null);
+  };
+
+  showOverlay() {
+    this.div_.style.display="block";
+    this.markerTriger.setMap(this.map);
+  };
+
   hideLabel() {
     const label = this.div_.getElementsByClassName('post_label')[0];
 
@@ -194,7 +208,7 @@ class ImageOverlay extends google.maps.OverlayView {
   }
 }
 
-function addImageOverlay(map, latlng, ImgUrl, lblContent, ImgWidth, ImgHeight, zoomLevel) {
+function addImageOverlay(map, latlng, ImgUrl, lblContent, ImgWidth, ImgHeight, zoomLevel ,genres ,markerTriger) {
   const latLng = latlng;
   const imageUrl = ImgUrl;
   const width = ImgWidth;
@@ -211,11 +225,40 @@ function addImageOverlay(map, latlng, ImgUrl, lblContent, ImgWidth, ImgHeight, z
     height,
     className,
     showLabel,
-    labelContent
+    labelContent,
+    genres,
+    markerTriger
   );
 
   return postMarker;
 }
+
+function extractHashtags(text) {
+  const hashtagPattern = /#(\S+)/g;
+  
+  let hashtags = [];
+  
+  let matches = text.matchAll(hashtagPattern);
+
+  for (let match of matches) {
+    hashtags.push(match[1]);
+  }
+
+  return hashtags;
+}
+
+window.hideAndShowPostByGenre = function (genres) {
+  genres = extractHashtags(genres);
+  postMarkers.forEach(marker => {
+    if ((marker.genres && Array.isArray(marker.genres) && marker.genres.some(genre => genres.includes(genre))) || (genres.length === 0)){
+      marker.showOverlay();
+    } else {
+      marker.hideOverlay();
+    }
+    console.log(marker.genres)
+  });
+  console.log(genres)
+};
 
 // 地図初期化関数
 function initMap(position) {
@@ -231,8 +274,8 @@ function initMap(position) {
 
   const zoomLevel = map.getZoom();
   imagesData.forEach(function (image) {
-    var postMarker = addImageOverlay(map, { lat: image.latitude, lng: image.longitude }, image.url, image.created_at, 80, 80, zoomLevel);
     var postTrigerMarker = createImageMarker({ lat: image.latitude, lng: image.longitude }, post_triger_icon, image.user_name, 80, 80, "", false);
+    var postMarker = addImageOverlay(map, { lat: image.latitude, lng: image.longitude }, image.url, image.created_at, 80, 80, zoomLevel ,image.genres ,postTrigerMarker);
     postMarkers.push(postMarker)
     postTrigerMarker.addListener('mouseover', function () {
       postMarker.setImageSize(90, 90);
@@ -358,45 +401,6 @@ getCurrentLocation().then(coords => {
   initMap({ lat: coords.lat, lng: coords.lng })
 });
 
-// 画像アップロードイベントハンドラ
-document.addEventListener('DOMContentLoaded', function () {
-  const postForm = document.getElementById('imageForm');
-  if (!postForm) return;
-
-  const fileField = document.querySelector('input[type="file"]');
-  fileField.addEventListener('change', function (e) {
-    const file = e.target.files[0];
-    const blob = window.URL.createObjectURL(file);
-    const cancel_upload_button = document.getElementById("cancel-upload");
-
-    // 'image-upload'クラスを持つ要素の背景画像を設定
-    const imageUploadElement = document.querySelector('.image-upload');
-    if (imageUploadElement && cancel_upload_button) {
-      imageUploadElement.style.backgroundImage = `url(${blob})`;
-      imageUploadElement.style.backgroundSize = 'cover'; // 背景画像のサイズ調整
-      imageUploadElement.style.backgroundPosition = 'center'; // 背景画像を中央に配置
-      cancel_upload_button.style.display = "block";
-    }
-  });
-});
-
-// 画像アップロードキャンセルボタンイベントリスナー
-const cancelUploadButton = document.getElementById('cancel-upload');
-cancelUploadButton.addEventListener('click', (e) => {
-  const fileField = document.querySelector('input[type="file"]');
-  const imageUploadElement = document.querySelector('.image-upload');
-  const cancel_upload_button = document.getElementById("cancel-upload");
-  e.preventDefault();
-  if (fileField) {
-    fileField.value = '';
-    if (imageUploadElement) {
-      cancel_upload_button.style.display = "none";
-      imageUploadElement.style.backgroundImage = "none";
-    }
-  }
-});
-
-
 document.addEventListener('DOMContentLoaded', function () {
   var postIcons = document.querySelectorAll('.postIcon');
   postIcons.forEach(function (postIcon) {
@@ -434,58 +438,31 @@ const popupViewComment = document.getElementById('popup-view-comment-p')
 
 // 画像を表示する関数
 function showViewPopup(image) {
-  popupViewImage.src = image.image_url; // 画像ソースを設定
-  popupViewBackground.style.display = 'flex'; // ポップアップを表示
-  createLikeButtonFunc(image)
-}
-
-function createLikeButtonFunc(image) {
   if (popupViewLike.firstChild) {
     popupViewLike.removeChild(popupViewLike.firstChild);
   }
-  if (image.user_id != login_user_id){
-    if (image.like_users.some(user => user.id === parseInt(login_user_id))) {
-      var turboFrameLikeButton = document.createElement('turbo-frame');
-      turboFrameLikeButton.id = 'turboLikeButton';
+  const url = `/images/show/${image.id}`; // サーバーからコンテンツを取得するURL
   
-      var link = document.createElement('a');
-      link.href = '/likes/' + image.id;
-      link.className = 'goodButtonImage';
-      link.dataset.turboMethod = 'delete';
-  
-      var img = document.createElement('img');
-      img.src = goodCancelButton;
-  
-      link.appendChild(img);
-      turboFrameLikeButton.appendChild(link);
-  
-      popupViewLike.appendChild(turboFrameLikeButton)
-      popupViewComment.innerHTML = image.comment
-    } else {
-  
-      var turboFrameLikeButton = document.createElement('turbo-frame');
-      turboFrameLikeButton.id = 'turboLikeButton';
-  
-      var link = document.createElement('a');
-      link.href = '/likes/' + image.id;
-      link.className = 'goodButtonImage';
-      link.dataset.turboMethod = 'post';
-  
-      var img = document.createElement('img');
-      img.src = goodButton;
-  
-      link.appendChild(img);
-      turboFrameLikeButton.appendChild(link);
-  
-      popupViewLike.appendChild(turboFrameLikeButton)
-      popupViewComment.innerHTML = image.comment
-  
+  fetch(url, {
+    headers: {
+      'Accept': 'text/vnd.turbo-stream.html', // Turbo Streamのレスポンスを要求
     }
-  }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text();
+  })
+  .then(html => {
+    popupViewBackground.style.display = 'flex';
+    Turbo.renderStreamMessage(html); // TurboでHTMLをレンダリング
+  })
+  .catch(error => console.error('Error:', error));
 }
 
 // 画像を閉じる関数
-function closeViewPopupFunc() {
+window.closeViewPopupFunc = function() {
   popupViewBackground.style.display = 'none'; // ポップアップを非表示
 }
 
@@ -494,8 +471,6 @@ function closePopupFormFunc() {
   popupForm.style.display = 'none';
 }
 
-// クリックイベントリスナーを追加 
-// closeViewPopup.onclick = closeViewPopupFunc;
 popupViewContent.onclick = closeViewPopupFunc;
 closePopupForm.onclick = closePopupFormFunc;
 
@@ -522,4 +497,8 @@ panToMyPlaceIcon.addEventListener('click', function () {
 
 window.panToByImage = function (latlng) {
   map.panTo(latlng);
+}
+
+window.redirectToUrl = function (url) {
+  window.location.href = url;
 }

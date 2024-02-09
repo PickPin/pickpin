@@ -56,3 +56,8 @@ closeNotificationSidebar.addEventListener("click", function() {
   showAndHideSidebar(2); 
 });
 
+const notificationButton = document.getElementById("notificationButton").querySelector('img');
+
+window.notificationChecked = function () {
+  notificationButton.src = notificationButtonIcon;
+}

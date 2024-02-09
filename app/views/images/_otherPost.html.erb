@@ -1,0 +1,23 @@
+<turbo-frame id="imageShow">
+  <div id="popup-view-content" class="popup-view-content">
+    <img id="popup-view-image" class="popup-view-image" src="<%= rails_blob_path(image.post_image, only_path: true) %>" alt="Popup Image" onclick="closeViewPopupFunc()">
+  </div>
+  <div class="popup-view-review-content">
+    <div class="popup-view-like" id="popup-view-like">
+      <turbo-frame id="turboLikeButton">
+        <% if image.like_users.exists?(id: current_user.id) %>
+          <%= link_to "/likes/#{image.id}", method: :delete, class: 'goodButtonImage', data: { turbo_method: :delete } do %>
+            <%= image_tag (asset_path('goodCancelButton.png')), class: 'popup-view-image', id: 'popup-view-image' %>
+          <% end %>
+        <% else %>
+          <%= link_to "/likes/#{image.id}", method: :post, class: 'goodButtonImage', data: { turbo_method: :post } do %>
+            <%= image_tag (asset_path('goodButton.png')), class: 'popup-view-image', id: 'popup-view-image' %>
+            <% end %>
+        <% end %>
+      </turbo-frame>
+    </div>
+    <div class="popup-view-comment">
+      <p id="popup-view-comment-p"><%= image.comment %></p>
+    </div>
+  </div>
+</turbo-frame>

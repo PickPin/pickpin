@@ -7,7 +7,10 @@
 
 <% content_for :js do %>
   <%= javascript_import_module_tag "map" %>
+  <% if user_signed_in? %>
   <%= javascript_import_module_tag "sidebar" %>
+  <%= javascript_import_module_tag "post" %>
+  <% end %>
   <%= javascript_import_module_tag  "userSearch" %>
 <% end %>
 
@@ -15,17 +18,19 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA0t45fvMjTCFbM9hixFDGwrJUrkMZNbs&libraries=places&callback=initMap&v=weekly"></script>
 <script>
 var add_post_icon = "<%= asset_path('addPostIcon.png') %>";
-var postGreenButton = "<%= asset_path('postGreenButton.png') %>";
-var login_user_id = "<%= @user_id %>";
-var login_user_name = "<%= @user_name %>"
+var postGreenButton = "<%= asset_path('postGreenButton.png') %>"
+var user_signed_in = <%= user_signed_in? %>;
+var login_user_name = "<%= @user_name %>";
 var login_user_icon = "<%= user_icon_url(@user) %>";
 var post_triger_icon = "<%= asset_path('forPostTriger.png') %>";
 var goodButton = "<%= asset_path('goodButton.png') %>";
 var goodCancelButton = "<%= asset_path('goodCancelButton.png') %>";
+var notificationButtonIcon = "<%= asset_path('NoticeIcon.png') %>"
 
 var imagesData = <%= (@images || []).each_with_index.map { |image, index|
   user = User.find(image.user_id)
   icon_url = user_icon_url(user)
+  genre_names = image.genres.pluck(:name)
   { 
     id: image.id, 
     url: icon_url,
@@ -39,6 +44,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
     current_user: @user_id,
     like_users: image.like_users,
     comment: image.comment,
+    genres: genre_names,
   }
 }.to_json.html_safe %>; 
 
@@ -67,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<% if user_signed_in? %>
 <div id="popupForm" class="popup-overlay">
   <div class="popup-content">
     <button type="button" id="close-btn" class="close-btn">&#10005;</button> <!-- Cross Mark -->
@@ -82,15 +89,15 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="field comment-section">
         <div class="user-icon-and-label">
           <div class="user-icon">
-            <%= image_tag(user_icon_url(@user), class: 'post-user-icon') %>
+            <%= image_tag(user_icon_url(@user), class: 'post-user-icon' )%>
           </div>
         </div>
 
         <%= form.label :range, '公開範囲' %>
         <div class="range-input">
-          <label><%= form.radio_button :public_range, :all %><span>全て</span></label>
-          <label><%= form.radio_button :public_range, :follow %><span>フォロワー</span></label>
-          <label><%= form.radio_button :public_range, :friend %><span>友人</span></label>
+          <label><%= form.radio_button :visibility_id, :"1" %><span>全て</span></label>
+          <label><%= form.radio_button :visibility_id, :"2" ,{:checked => "checked"} %><span>フォロワー</span></label>
+          <label><%= form.radio_button :visibility_id, :"3" %><span>友人</span></label>
         </div>
 
         <%= form.label :tag, '投稿タグ' %>
@@ -110,22 +117,34 @@ document.addEventListener('DOMContentLoaded', function() {
       <% end %>
       <%= form.hidden_field :latitude, value: 0, id: 'latitude-field' %>
       <%= form.hidden_field :longitude, value: 0, id: 'longitude-field' %>
-      <%= form.submit "投稿", id: "submitForm", class: "submit-btn" %>
+      <%= form.submit "投稿", id: "submitForm", class: "submit-btn" ,onclick: "redirectToUrl('/');" %>
     <% end %>
   </div>
 </div>
+<% else %>
+<div id="popupForm" class="popup-overlay">
+  <div class="popup-content">
+  <button type="button" id="close-btn" class="close-btn">&#10005;</button> <!-- Cross Mark -->
+
+  <h1>ログインしてください</h1>
+  </div>
+</div>
+<% end %>
+
 
 <div id="popup-view-background" class="popup-view-background">
-  <div id="popup-view-content" class="popup-view-content">
-    <img id="popup-view-image" class="popup-view-image" src="" alt="Popup Image">
-  </div>
-  <div class="popup-view-review-content">
-    <div class="popup-view-like" id="popup-view-like">
-    </div>
-    <div class="popup-view-comment">
-        <p id="popup-view-comment-p"></p>
-    </div>
-  </div>
+<turbo-frame id="imageShow">
+<div id="popup-view-content" class="popup-view-content">
+<img id="popup-view-image" class="popup-view-image" src="" alt="Popup Image">
+</div>
+<div class="popup-view-review-content">
+<div class="popup-view-like" id="popup-view-like">
+</div>
+<div class="popup-view-comment">
+<p id="popup-view-comment-p"></p>
+</div>
+</div>
+</turbo-frame>
 </div>
 
 
@@ -140,6 +159,9 @@ document.addEventListener('DOMContentLoaded', function() {
       type="text"
       placeholder="Search Box"
     >
+  </div>
+  <div class="genre_input">
+    <input type="text" onChange="hideAndShowPostByGenre(this.value)" placeholder="投稿タグ">
   </div>
   <div id="panToMyPlace">
     <img src="<%= asset_path('panToMyPalace.png') %>" >
@@ -185,6 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
   </div>
 
+  <% if current_user %>
   <div id="RightSideMenuList">
     <div class="myProfile menuButton" id="myProfileSideBarOpenButton">
       <img src="<%= asset_path('myProfileIcon.png') %>"class="menuButtonIcon menuIcon">
@@ -194,9 +217,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="notion menuButton" id="notificationSideBarOpenButton">
     <% if current_user.notifications.where(checked: false).exists? %>
-      <%= link_to image_tag(asset_path('NoticeIconRed.png')), notifications_path(), data: { "turbo-method": :get }, class: "notificationButtonIcon menuIcon" %>
+      <%= link_to image_tag(asset_path('NoticeIconRed.png')), notifications_path(), data: { "turbo-method": :get }, id: "notificationButton", class: "notificationButtonIcon menuIcon" , onclick: "notificationChecked()"%>
     <% else %>
-      <%= link_to image_tag(asset_path('NoticeIcon.png')), notifications_path(), data: { "turbo-method": :get }, class: "notificationButtonIcon menuIcon" %>
+      <%= link_to image_tag(asset_path('NoticeIcon.png')), notifications_path(), data: { "turbo-method": :get },id: "notificationButton", class: "notificationButtonIcon menuIcon", onclick: "notificationChecked()"%>
     <% end %>
     </div>
   </div>
@@ -249,6 +272,8 @@ document.addEventListener('DOMContentLoaded', function() {
   
   <turbo-frame id="notification-turbo">
   </turbo-frame>
+
+  <% end %>
 
 </div>
 

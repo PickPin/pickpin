@@ -11,7 +11,7 @@ class Like < ApplicationRecord
     def create_notifications
       user = User.find_by(id: self.image.user_id)
       if user
-        Notification.create(subject: self, user: user, action_type: :liked_to_own_post)
+        Notification.create(subject: self, user: user, action_type: :liked_to_own_post, checked: false)
       end
     end
 end
