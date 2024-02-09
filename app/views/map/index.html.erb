@@ -232,16 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="profile-edit"><%= link_to "Edit profile", edit_user_registration_path, class:"btn btn--orange" %></div>
           <div class="profile-name"><%= @user.name %></div>
         </div>
-      <div class="follow-wrapper">
-        <div class="follow-count">
-          following<br>
-          <%= render partial: "relationships/followed-info", locals: { user: @user } %>
-        </div>
-        <div class="follow-count">
-          folowed<br>
-          <%= render partial: "relationships/following-info", locals: { user: @user } %>
-        </div>
-      </div>
       <%= render partial: "relationships/follow-info", locals: { user: @user } %>
       <%= render partial: "users/introduction", locals: { user: @user } %>
     </div>
