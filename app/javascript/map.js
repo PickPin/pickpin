@@ -439,9 +439,7 @@ document.addEventListener('turbo:load', function () {
       window.location.href = url;
     }
 
-  }
-
-
+    
 
   const popupViewBackground = document.getElementById('popup-view-background');
   const popupViewContent = document.getElementById('popup-view-content');
@@ -503,6 +501,11 @@ document.addEventListener('turbo:load', function () {
     }
   });
 
+
+  }
+
+
 });
+
 
 

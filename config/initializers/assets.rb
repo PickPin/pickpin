@@ -20,4 +20,5 @@ Rails.application.config.assets.precompile += %w(
     map.css
     postForm.css
     post_image.css
+    edit_page.css
 )

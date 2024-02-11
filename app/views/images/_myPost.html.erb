@@ -5,7 +5,7 @@
   <div class="popup-view-review-content">
     <div class="popup-view-like" id="popup-view-like">
       <div id="turboLikeButton">
-        <%= link_to "/images/destroy/#{image.id}", method: :delete, class: 'goodButtonImage', data: { turbo_method: :delete } ,  onclick: "redirectToUrl('/');" do %>
+        <%= link_to "/images/destroy/#{image.id}", method: :delete, class: 'goodButtonImage', local: true, data: { turbo_method: :delete } ,  onclick: "redirectToUrl('/');"  do %>
           <%= image_tag (asset_path('goodCancelButton.png')), class: 'popup-view-image', id: 'popup-view-image' %>
         <% end %>
       </div>

@@ -48,7 +48,7 @@ var imagesData = <%= (@images || []).each_with_index.map { |image, index|
   }
 }.to_json.html_safe %>; 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('turbo:load', function() {
   // ログインユーザーのID
   var loginUserId = "<%= @user_id %>";
 
@@ -228,10 +228,11 @@ document.addEventListener('DOMContentLoaded', function() {
   <button class="closeSideBar" id="closeMyProfileSidebar">×</button>
     <div class="profile-wapper">
         <div class="profile-top-wrapper">
-          <div class="profileIcon sweezy-custom-cursor-hover"><img src="<%= asset_path('userIcon.png') %>" class="profileIcon-img sweezy-custom-cursor-hover"></div>
+          <div class="profileIcon sweezy-custom-cursor-hover"><img src="<%= user_icon_url(@user)  %>" class="profileIcon-img sweezy-custom-cursor-hover"></div>
           <div class="profile-edit"><%= link_to "Edit profile", edit_user_registration_path, class:"btn btn--orange" %></div>
-          <div class="profile-name"><%= @user.name %></div>
+  
         </div>
+        <div class="profile-name"><%= @user.name %></div>
       <%= render partial: "relationships/follow-info", locals: { user: @user } %>
       <%= render partial: "users/introduction", locals: { user: @user } %>
     </div>

@@ -86,10 +86,6 @@ h3 {
     margin-top: 2vw;
 }
 
-.profileIcon:hover {
-    transform: scale(1.1,1.1);
-    cursor: pointer; 
-}
 
 .post {
     /* background: #fff; */
@@ -306,8 +302,10 @@ h3 {
 
 .profile-top-wrapper {
     width: 20vw;
-    height: 9vw;
+    height: 8vw;
     text-align: center;
+    margin-bottom: 10px;
+    /* display: flex; */
 }
 
 .profile-img {
@@ -324,11 +322,12 @@ h3 {
 }
 
 .profile-name {
-    margin: 0 auto;
-    height: 3vw;
-    font-size: 50px;
-    line-height: 80px;
+    /* margin: 0 auto; */
+    height: 40px;
+    font-size: 30px;
+    /* line-height: 80px; */
     color: black;
+    margin-bottom: 10px;
 }
 
 .profile-edit {
@@ -341,12 +340,15 @@ h3 {
 }
 
 .profile-edit .btn {
-    height: 55px;
+     height: 40px;
+    width: 165px;
     font-size: 30px;
-    padding: 0 20px;
-    border-radius: 10px;
-    border-color:#f56500;
+    padding: 0 10px;
+    border-color: #f56500;
     border-style: outset;
+    display: flex;
+    margin: auto;
+    border-radius: 5px;
 }
 
 
@@ -370,7 +372,7 @@ h3 {
 .follow-wrapper {
     width: 20vw;
     height: 80px;
-    margin: 2vw auto;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-around;
     border: black;
@@ -383,25 +385,39 @@ h3 {
     height: 5vw;
     padding: 0;
     margin: 0 auto;
+    text-decoration: none;
+}
+
+.follow-count a {
+    text-decoration: none;
 }
 
 .follow-count p {
     margin: 0;
     padding: 0;
+    /* text-decoration: none; */
 }
+
+.follow-title {
+    color: #000;
+    font-size: 20px;
+    text-decoration: none;
+}
+
 
 .follow-number {
     color: #000;
-    font-size: 30px;
+    font-size: 25px;
     text-decoration: none;
 }
 .self-intro {
-    width: 20vw;
+    width: 16vw;
     height: 100px;
-    padding: 15px;
+    padding: 0 2vw;
     text-align: left;
     font-size: 20px;
     border-bottom: 2px solid #000;
+    overflow-wrap: break-word;
 }
 
 .ex-post-container {
@@ -492,3 +508,4 @@ h3 {
     outline: none;
     border:none;
 }
+

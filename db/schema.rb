@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_04_091845) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_08_101338) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -57,8 +57,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_04_091845) do
   end
 
   create_table "images_genres", force: :cascade do |t|
-    t.bigint "image", null: false
-    t.bigint "genre", null: false
+    t.bigint "image_id", null: false
+    t.bigint "genre_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

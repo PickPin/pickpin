@@ -1,3 +1,4 @@
+document.addEventListener('turbo:load', function () {
 var userSearchSideBarOpenButton = document.getElementById('userSearchSideBarOpenButton');
 var myProfileSideBarOpenButton = document.getElementById('myProfileSideBarOpenButton');
 var notificationSideBarOpenButton = document.getElementById('notificationSideBarOpenButton');
@@ -61,3 +62,5 @@ const notificationButton = document.getElementById("notificationButton").querySe
 window.notificationChecked = function () {
   notificationButton.src = notificationButtonIcon;
 }
+
+});
