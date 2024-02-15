@@ -15,6 +15,18 @@
 基本的な操作は一画面上で行えるように、railsのturbo streamの機能を多用している。
 
 ## 使用例
+メイン画面
+![IMG_5105](https://github.com/tarou-jp/project2024/assets/117962902/67febf67-e906-4621-960e-cbf6ff80073a)
+投稿表示画面(マップ上のアイコンをタップすることにより表示)
+![IMG_5106](https://github.com/tarou-jp/project2024/assets/117962902/77bbfb68-0ab5-4d3c-bcea-4fd9ab93b488)
+投稿画像のフィルターがけ(画面中央下の入力欄に#で区切ってタグを指定することができる。そのタグが付与された投稿のみマップ上に表示される)
+ユーザープロフィル(画面右の上から1番目のボタンを押すことによりサイドバーが現れる。)
+![IMG_5109](https://github.com/tarou-jp/project2024/assets/117962902/fc2be323-7923-42e7-ae95-2ecf8d9687ff)
+ユーザー検索(画面右の上から２番目のボタンを押すことによりサイドバーが現れる。)
+![IMG_5108](https://github.com/tarou-jp/project2024/assets/117962902/ad5a30f6-0fe1-48a8-909e-ce441460343e)
+
+
+
 
 ## 使用技術
 ruby on rails
