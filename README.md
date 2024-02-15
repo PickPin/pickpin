@@ -24,7 +24,8 @@
 ![IMG_5109](https://github.com/tarou-jp/project2024/assets/117962902/fc2be323-7923-42e7-ae95-2ecf8d9687ff)
 ユーザー検索(画面右の上から２番目のボタンを押すことによりサイドバーが現れる。)
 ![IMG_5108](https://github.com/tarou-jp/project2024/assets/117962902/ad5a30f6-0fe1-48a8-909e-ce441460343e)
-
+通知(画面右の上から3番目のボタンを押すことによりサイドバーが現れる。)
+![image](https://github.com/tarou-jp/project2024/assets/117962902/05e80678-e3f7-489d-8e7c-7938827cd2ee)
 
 
 
